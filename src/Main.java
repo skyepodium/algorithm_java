@@ -3,37 +3,29 @@ import java.util.*;
 
 public class Main {
 
-    static int n, m;
+    static String a, b, c, d;
+    static long first, second;
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        n = sc.nextInt();
-        m = sc.nextInt();
+        a = sc.next();
+        b = sc.next();
+        c = sc.next();
+        d = sc.next();
 
-        Queue<Integer> q = new ArrayDeque<>();
-        for(int i=1; i<=n; i++){
-            q.add(i);
+        a = a + b;
+        c = c + d;
+        first = sToInt(a);
+        second = sToInt(c);
+        System.out.println(first + second);
+    }
+
+    public static long sToInt(String s){
+        long result = 0;
+        for(int i=s.length() - 1; i>=0; i--){
+            result += (s.charAt(i) - '0') * Math.pow(10, s.length() -1 - i);
         }
-
-        int cnt = 1;
-        System.out.print("<");
-        while(!q.isEmpty()){
-            if(cnt == m){
-
-                System.out.print(q.peek());
-                if(q.size() != 1){
-                    System.out.print(", ");
-                }
-                q.remove();
-                cnt = 1;
-            }
-            else{
-                q.add(q.peek());
-                q.remove();
-                cnt++;
-            }
-        }
-        System.out.println(">");
+        return result;
     }
 
 }
