@@ -1,7 +1,14 @@
-import java.util.*;
+class Main {
+    public int[] runningSum(int[] nums) {
+        int[] result = new int[nums.length];
 
-public class Main{
-    public static void main(String[] args) {
 
+        int cur = 0;
+        for(int i=0; i<nums.length; i++) {
+            cur += nums[i];
+            result[i] = cur;
+        }
+
+        return result;
     }
 }
