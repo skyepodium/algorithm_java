@@ -7,7 +7,7 @@ class Main {
         for(int i=0; i<nums.length; i++) {
             cur += nums[i];
             result[i] = cur;
-        }
+        }  
 
         return result;
     }
