@@ -6,17 +6,19 @@ public class Main {
 }
 
 class Solution {
-    public boolean isPalindrome(String s) {
-        s = s.replaceAll("[^a-zA-Z0-9]", "");
-        s = s.toLowerCase();
+    public void reverseString(char[] s) {
+        int size = s.length;
 
-        int size = s.length();
-        for(int i=0; i<size/2; i++) {
-            if(s.charAt(i) != s.charAt(size - i - 1)) {
-                return false;
-            }
+        int l = 0;
+        int r = size - 1;
+
+        while (l < r) {
+            char temp = s[l];
+            s[l] = s[r];
+            s[r] = temp;
+
+            l++;
+            r--;
         }
-
-        return true;
     }
 }
