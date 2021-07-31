@@ -1,23 +1,21 @@
 public class Main {
 
     public static void main(String[] args) {
+        Solution s = new Solution();
 
+        s.lengthOfLastWord(" ");
     }
 }
 
 class Solution {
-    public int[] twoSum(int[] nums, int target) {
+    public int lengthOfLastWord(String s) {
 
-        int result[] = new int[2];
+        String res[] = s.split(" ");
 
-        for(int i=0; i<nums.length; i++) {
-            for(int j=i+1; j<nums.length; j++) {
-                if(nums[i] + nums[j] == target) {
-                    result[0] = i;
-                    result[1] = j;
-                }
-            }
-        }
-        return result;
+        int size = res.length;
+
+        if(size - 1 < 0) return 0;
+
+        return res[res.length-1].length();
     }
 }
