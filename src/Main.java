@@ -6,19 +6,18 @@ public class Main {
 }
 
 class Solution {
-    public void reverseString(char[] s) {
-        int size = s.length;
+    public int[] twoSum(int[] nums, int target) {
 
-        int l = 0;
-        int r = size - 1;
+        int result[] = new int[2];
 
-        while (l < r) {
-            char temp = s[l];
-            s[l] = s[r];
-            s[r] = temp;
-
-            l++;
-            r--;
+        for(int i=0; i<nums.length; i++) {
+            for(int j=i+1; j<nums.length; j++) {
+                if(nums[i] + nums[j] == target) {
+                    result[0] = i;
+                    result[1] = j;
+                }
+            }
         }
+        return result;
     }
 }
