@@ -1,21 +1,49 @@
+import java.util.ArrayList;
+
 public class Main {
 
     public static void main(String[] args) {
         Solution s = new Solution();
 
-        s.lengthOfLastWord(" ");
+        int d[] = {8, 9, 9, 9};
+
+        int a[] = s.plusOne(d);
+
+        for(int num: a) {
+            System.out.println(num);
+        }
     }
 }
 
 class Solution {
-    public int lengthOfLastWord(String s) {
+    public int[] plusOne(int[] digits) {
+        int size =digits.length;
+        int idx = size - 1;
+        digits[idx] += 1;
 
-        String res[] = s.split(" ");
+        while (idx >= 0) {
+            int val = digits[idx];
 
-        int size = res.length;
+            if(val >= 10) {
+                digits[idx] = 0;
 
-        if(size - 1 < 0) return 0;
+                if(idx == 0) {
+                    int []result_list = new int[size + 1];
+                    result_list[0] = 1;
 
-        return res[res.length-1].length();
+                    for(int i=1; i<size; i++) {
+                        result_list[i] = digits[i-1];
+                    }
+
+                    return result_list;
+                }
+                else{
+                    digits[idx-1] += 1;
+                }
+            }
+            idx--;
+        }
+
+        return digits;
     }
 }
