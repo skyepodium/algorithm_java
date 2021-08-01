@@ -5,15 +5,17 @@ public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
 
-        System.out.println(s.climbStairs(4));
+        System.out.println(s.climbStairs(1));
     }
 }
 
 class Solution {
     public int climbStairs(int n) {
-        int max_int = 45;
 
-        int d[] = new int[max_int];
+        if (n <= 2) return n;
+
+        int[] d = new int[n+1];
+
         d[0] = 0;
         d[1] = 1;
         d[2] = 2;
