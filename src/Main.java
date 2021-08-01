@@ -5,24 +5,33 @@ public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
 
-        System.out.println(s.climbStairs(1));
+        System.out.println(s.mySqrt(1));
     }
 }
 
 class Solution {
-    public int climbStairs(int n) {
+    public int mySqrt(int x) {
 
-        if (n <= 2) return n;
+        Long l = 0L;
+        Long r = new Long(x);
+        Long result = 0L;
 
-        int[] d = new int[n+1];
+        while(l <= r) {
+            Long mid = (l + r) / 2;
+            Long val = mid * mid;
 
-        d[0] = 0;
-        d[1] = 1;
-        d[2] = 2;
-
-        for(int i=3; i<=n; i++) {
-            d[i] = d[i-1] + d[i-2];
+            if(val > x) {
+                r = mid - 1;
+            }
+            else if(val == x) {
+                return mid.intValue();
+            }
+            else{
+                result = mid;
+                l = mid + 1;
+            }
         }
-        return d[n];
+
+        return result.intValue();
     }
 }
