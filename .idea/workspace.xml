@@ -58,6 +58,19 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="CLASS" />
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Main" />
@@ -123,7 +136,7 @@
       <workItem from="1627824178730" duration="2628000" />
       <workItem from="1627902138129" duration="2868000" />
       <workItem from="1628325731726" duration="7954000" />
-      <workItem from="1628399701027" duration="2183000" />
+      <workItem from="1628399701027" duration="5392000" />
     </task>
     <servers />
   </component>
