@@ -1,42 +1,40 @@
+import java.util.ArrayList;
+
 class Main {
     public static void main(String[] args) {
-        Solution sl = new Solution();
 
-        int[] height = {0,1,0,2,1,0,1,3,2,1,2,1};
-
-        int res = sl.trap(height);
-
-        System.out.println(res);
     }
 }
 
 class Solution {
-    public int trap(int[] height) {
+    public boolean isPalindrome(ListNode head) {
 
-        int result = 0;
+        ArrayList<Integer> result = new ArrayList<>();
 
-        // 1. 왼쪽, 오른쪽 최대 높이를 저장할 변수 생성
-        int l = 0;
-        int r = height.length - 1;
-        int leftMax = height[l];
-        int rightMax = height[r];
+        ListNode node = head;
 
-        while(l <= r) {
-            // 2. 투 포인터 왼쪽, 오른쪽 최대값 갱신
-            leftMax = Math.max(leftMax, height[l]);
-            rightMax = Math.max(rightMax, height[r]);
-
-            // 3. 최대 높이를 향해 투 포인터 이동
-            if(leftMax <= rightMax) {
-                result += leftMax - height[l];
-                l++;
-            }
-            else {
-                result += rightMax - height[r];
-                r--;
-            }
+        while(node != null) {
+            result.add(node.val);
+            node = node.next;
         }
 
-        return result;
+        int l = 0;
+        int r = result.size() - 1;
+
+        while(l < r) {
+            if(result.get(l) != result.get(r)) return false;
+            l++;
+            r--;
+        }
+
+        return true;
     }
+}
+
+class ListNode {
+     int val;
+     ListNode next;
+     ListNode() {}
+     ListNode(int val) { this.val = val; }
+     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
 }
