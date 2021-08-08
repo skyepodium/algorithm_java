@@ -123,7 +123,7 @@
       <workItem from="1627824178730" duration="2628000" />
       <workItem from="1627902138129" duration="2868000" />
       <workItem from="1628325731726" duration="7954000" />
-      <workItem from="1628399701027" duration="522000" />
+      <workItem from="1628399701027" duration="2183000" />
     </task>
     <servers />
   </component>
@@ -141,6 +141,16 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.ArrayIndexOutOfBoundsException" package="java.lang" />
+          <option name="timeStamp" value="2" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="masterDetails">
     <states>
