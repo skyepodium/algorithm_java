@@ -1,65 +1,61 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Stack;
 
 class Main {
     public static void main(String[] args) {
         Solution sl = new Solution();
 
-        String digits = "23";
+        int[] nums = {1, 2, 3};
 
-        List<String> res = sl.letterCombinations(digits);
+        List<List<Integer>> res = sl.permute(nums);
 
-        for(String num: res) {
-            System.out.println(num);
+        for(List<Integer> cur: res) {
+            for(int num: cur) {
+                System.out.print(num);
+            }
+            System.out.println();
         }
-
     }
 }
 
 class Solution {
 
     int size = 0;
-    List<String> result = new ArrayList<>();
-    String[] nums = {
-            "",
-            "",
-            "abc",
-            "def",
-            "ghi",
-            "jkl",
-            "mno",
-            "pqrs",
-            "tuv",
-            "wxyz"
-    };
-    String digitsStr = "";
+    int[] check;
+    int[] curNums;
+    List<List<Integer>> result;
+    public List<List<Integer>> permute(int[] nums) {
 
-    public List<String> letterCombinations(String digits) {
+        size = nums.length;
+        check = new int[21];
+        curNums = nums;
 
-        digitsStr = digits;
-        size = digitsStr.length();
+        result = new ArrayList<>();
 
-        go(0, "");
+        go(0, new ArrayList<>());
 
+        System.out.println(result.get(0));
         return result;
     }
 
-    public void go(int idx, String val) {
+    public void go(int idx, ArrayList<Integer> stack) {
         if(idx >= size) {
-            if(val.length() > 0) {
-                result.add(val);
-            }
+            result.add(new ArrayList<>(stack));
             return;
         }
 
-        int cur = Integer.parseInt(String.valueOf(digitsStr.charAt(idx)));
-        String curNums = nums[cur];
-        int size = curNums.length();
+        for(int num: curNums) {
+            if(check[num + 10] == 0) {
+                check[num+10] = 1;
+                stack.add(num);
 
-        for(int i=0; i<size; i++) {
-            val += curNums.charAt(i);
-            go(idx + 1, val);
-            val = val.substring(0, val.length() - 1);
+                go(idx + 1, stack);
+
+                check[num+10] = 0;
+                stack.remove(stack.size() - 1);
+            }
         }
     }
 }
