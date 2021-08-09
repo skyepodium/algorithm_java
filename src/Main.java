@@ -1,60 +1,65 @@
+import java.util.ArrayList;
+import java.util.List;
+
 class Main {
-
     public static void main(String[] args) {
-        char[][] grid = {
-                {'1', '1', '0', '0', '0'},
-                {'1', '1', '0', '0', '0'},
-                {'0', '0', '1', '0', '0'},
-                {'0', '0', '0', '1', '1'}
-        };
-
         Solution sl = new Solution();
-        int res = sl.numIslands(grid);
 
-        System.out.println(res);
+        String digits = "23";
+
+        List<String> res = sl.letterCombinations(digits);
+
+        for(String num: res) {
+            System.out.println(num);
+        }
+
     }
 }
 
 class Solution {
 
-    public int[][] check;
-    public char[][] a;
-    public int n, m, cnt;
-    public int[] dx = {0, 0, 1, -1};
-    public int[] dy = {-1, 1, 0, 0};
+    int size = 0;
+    List<String> result = new ArrayList<>();
+    String[] nums = {
+            "",
+            "",
+            "abc",
+            "def",
+            "ghi",
+            "jkl",
+            "mno",
+            "pqrs",
+            "tuv",
+            "wxyz"
+    };
+    String digitsStr = "";
 
-    public int numIslands(char[][] grid) {
+    public List<String> letterCombinations(String digits) {
 
-        n = grid.length;
-        m = grid[0].length;
+        digitsStr = digits;
+        size = digitsStr.length();
 
-        check = new int[n][m];
+        go(0, "");
 
-        a = grid;
-
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
-                if (a[i][j] == '1' && check[i][j] == 0) {
-                    dfs(i, j);
-                    cnt++;
-                }
-            }
-        }
-        return cnt;
+        return result;
     }
 
-    public void dfs(int x, int y) {
-        check[x][y] = 1;
-
-        for(int i=0; i<4; i++) {
-            int nx = x + dx[i];
-            int ny = y + dy[i];
-
-            if(nx < 0 || nx >= n || ny < 0 || ny >= m) continue;
-
-            if(a[nx][ny] == '1' && check[nx][ny] == 0) {
-                dfs(nx, ny);
+    public void go(int idx, String val) {
+        if(idx >= size) {
+            if(val.length() > 0) {
+                result.add(val);
             }
+            return;
+        }
+
+        int cur = Integer.parseInt(String.valueOf(digitsStr.charAt(idx)));
+        String curNums = nums[cur];
+        int size = curNums.length();
+
+        for(int i=0; i<size; i++) {
+            val += curNums.charAt(i);
+            go(idx + 1, val);
+            val = val.substring(0, val.length() - 1);
         }
     }
 }
