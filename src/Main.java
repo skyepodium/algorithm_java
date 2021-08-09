@@ -1,57 +1,60 @@
-import java.util.HashMap;
-import java.util.Stack;
-
 class Main {
+
     public static void main(String[] args) {
+        char[][] grid = {
+                {'1', '1', '0', '0', '0'},
+                {'1', '1', '0', '0', '0'},
+                {'0', '0', '1', '0', '0'},
+                {'0', '0', '0', '1', '1'}
+        };
+
         Solution sl = new Solution();
-
-        String s = "()[]{}";
-
-        Boolean res = sl.isValid(s);
+        int res = sl.numIslands(grid);
 
         System.out.println(res);
     }
 }
 
 class Solution {
-    public boolean isValid(String s) {
 
-        // 1. 여는 괄호 기준으로 닫는 괄호 map 생성
-        HashMap<Character, Character> map = new HashMap<>();
-        map.put('{', '}');
-        map.put('[', ']');
-        map.put('(', ')');
+    public int[][] check;
+    public char[][] a;
+    public int n, m, cnt;
+    public int[] dx = {0, 0, 1, -1};
+    public int[] dy = {-1, 1, 0, 0};
 
-        // 2. 스택 생성
-        Stack<Character> stack = new Stack<>();
+    public int numIslands(char[][] grid) {
 
-        int size = s.length();
-        for(int i=0; i<size; i++) {
-            char cur = s.charAt(i);
+        n = grid.length;
+        m = grid[0].length;
 
-            // 3. 스택이 들어있는 경우
-            if(!stack.empty()) {
+        check = new int[n][m];
 
-                // 현재가 시작 괄호이면 push
-                if(map.get(cur) != null) {
-                    stack.add(cur);
+        a = grid;
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (a[i][j] == '1' && check[i][j] == 0) {
+                    dfs(i, j);
+                    cnt++;
                 }
-                // 현재가 닫는 과로인데 top의 닫는 괄호가 아니면 종료
-                else {
-                    if(map.get(stack.pop()) != cur) return false;
-                }
-            }
-            // 4. 스택이 비어있는 경우
-            else{
-                stack.add(cur);
-                // 현재가 닫는 괄호이면 종료
-                if(map.get(cur) == null) return false;
             }
         }
+        return cnt;
+    }
 
-        // 5. 여는 괄호가 하나라도 남아있으면 종료
-        if(!stack.empty()) return false;
+    public void dfs(int x, int y) {
+        check[x][y] = 1;
 
-        return true;
+        for(int i=0; i<4; i++) {
+            int nx = x + dx[i];
+            int ny = y + dy[i];
+
+            if(nx < 0 || nx >= n || ny < 0 || ny >= m) continue;
+
+            if(a[nx][ny] == '1' && check[nx][ny] == 0) {
+                dfs(nx, ny);
+            }
+        }
     }
 }
