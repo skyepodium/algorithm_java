@@ -4,17 +4,9 @@ import java.util.List;
 class Main {
     public static void main(String[] args) {
         Solution sl = new Solution();
+        int[] c = {1, 2, 3,};
 
-//        int[] c = {2, 3, 6, 7};
-//        int target = 7;
-
-//        int[] c = {2};
-//        int target = 1;
-        int[] c = {2, 3, 5};
-        int target = 8;
-
-
-        List<List<Integer>> result = sl.combinationSum(c, target);
+        List<List<Integer>> result = sl.subsets(c);
 
         for(List<Integer> nums: result) {
             for(int num: nums) {
@@ -27,32 +19,26 @@ class Main {
 }
 
 class Solution {
+
+    int[] numsArr;
+    int size;
     List<List<Integer>> result = new ArrayList<>();
-    int targetVal = 0;
-    int[] cData;
-    int size = 0;
-    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+    public List<List<Integer>> subsets(int[] nums) {
 
-        targetVal = target;
-        cData = candidates;
-        size = candidates.length;
+        numsArr = nums;
+        size = nums.length;
 
-        go(0, 0, new ArrayList<>());
+        go(0, new ArrayList<>());
 
         return result;
     }
 
-    public void go(int idx, int sumVal, List<Integer> stack) {
-        if(sumVal >= targetVal) {
-            if(sumVal == targetVal) {
-                result.add(new ArrayList<>(stack));
-            }
-            return;
-        }
+    public void go(int idx, List<Integer> stack) {
+        result.add(new ArrayList<>(stack));
 
         for(int i=idx; i<size; i++) {
-            stack.add(cData[i]);
-            go(i, sumVal + cData[i], stack);
+            stack.add(numsArr[i]);
+            go(i + 1, stack);
             stack.remove(stack.size() - 1);
         }
     }
