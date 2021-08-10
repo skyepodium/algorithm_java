@@ -1,48 +1,58 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Stack;
 
 class Main {
     public static void main(String[] args) {
         Solution sl = new Solution();
 
-        int n = 4;
-        int k = 2;
+//        int[] c = {2, 3, 6, 7};
+//        int target = 7;
 
-        List<List<Integer>> res = sl.combine(n, k);
+//        int[] c = {2};
+//        int target = 1;
+        int[] c = {2, 3, 5};
+        int target = 8;
 
-        for(List<Integer> nums: res) {
+
+        List<List<Integer>> result = sl.combinationSum(c, target);
+
+        for(List<Integer> nums: result) {
             for(int num: nums) {
                 System.out.print(num + " ");
             }
             System.out.println();
         }
+
     }
 }
 
 class Solution {
-
     List<List<Integer>> result = new ArrayList<>();
-    int nVal = 0;
-    public List<List<Integer>> combine(int n, int k) {
+    int targetVal = 0;
+    int[] cData;
+    int size = 0;
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
 
-        nVal = n;
+        targetVal = target;
+        cData = candidates;
+        size = candidates.length;
 
-        go(0, k, new ArrayList<>());
+        go(0, 0, new ArrayList<>());
 
         return result;
     }
 
-    public void go(int idx, int remain, ArrayList<Integer> stack) {
-        if(remain == 0) {
-            result.add(new ArrayList<>(stack));
+    public void go(int idx, int sumVal, List<Integer> stack) {
+        if(sumVal >= targetVal) {
+            if(sumVal == targetVal) {
+                result.add(new ArrayList<>(stack));
+            }
             return;
         }
 
-        for(int i=idx; i< nVal; i++) {
-            stack.add(i + 1);
-            go(i + 1, remain - 1, stack);
+        for(int i=idx; i<size; i++) {
+            stack.add(cData[i]);
+            go(i, sumVal + cData[i], stack);
             stack.remove(stack.size() - 1);
         }
     }
