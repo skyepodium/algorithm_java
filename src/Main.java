@@ -1,45 +1,87 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.*;
 
 class Main {
-    public static void main(String[] args) {
-        Solution sl = new Solution();
-        int[] c = {1, 2, 3,};
 
-        List<List<Integer>> result = sl.subsets(c);
+    static int n, m, a, b, c, startNode, endNode;
+    static ArrayList<Info>[] v;
+    static int[] d;
+    static int maxVal = Integer.MAX_VALUE;
 
-        for(List<Integer> nums: result) {
-            for(int num: nums) {
-                System.out.print(num + " ");
-            }
-            System.out.println();
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
+
+        st = new StringTokenizer(br.readLine());
+        n = Integer.parseInt(st.nextToken());
+        st = new StringTokenizer(br.readLine());
+        m = Integer.parseInt(st.nextToken());
+
+        d = new int[n+1];
+
+        v = new ArrayList[n+1];
+        for(int i=0; i<=n; i++) {
+            v[i] = new ArrayList<>();
+            d[i] = maxVal;
         }
 
+        for(int i=0; i<m; i++) {
+            st = new StringTokenizer(br.readLine());
+            a = Integer.parseInt(st.nextToken());
+            b = Integer.parseInt(st.nextToken());
+            c = Integer.parseInt(st.nextToken());
+            v[a].add(new Info(b, c));
+        }
+
+        st = new StringTokenizer(br.readLine());
+        startNode = Integer.parseInt(st.nextToken());
+        endNode = Integer.parseInt(st.nextToken());
+
+        dijkstra(startNode);
+
+        System.out.println(d[endNode]);
+
+    }
+
+    public static void dijkstra(int node) {
+        d[node] = 0;
+        PriorityQueue<Info> pq = new PriorityQueue<>(new Comparator<Info>() {
+            @Override
+            public int compare(Info o1, Info o2) {
+                return o1.cost - o2.cost;
+            }
+        });
+        pq.add(new Info(node, d[node]));
+
+        while(!pq.isEmpty()) {
+            Info cur = pq.poll();
+
+            int cNode = cur.node;
+            int cCost = cur.cost;
+
+            if(d[cNode] < cCost) continue;
+
+            for(Info nInfo: v[cNode]) {
+                int nNode = nInfo.node;
+                int nCost = nInfo.cost;
+
+                if(d[nNode] > d[cNode] + nCost) {
+                    d[nNode] = d[cNode] + nCost;
+                    pq.add(new Info(nNode, d[nNode]));
+                }
+            }
+        }
     }
 }
 
-class Solution {
+class Info {
+    int node;
+    int cost;
 
-    int[] numsArr;
-    int size;
-    List<List<Integer>> result = new ArrayList<>();
-    public List<List<Integer>> subsets(int[] nums) {
-
-        numsArr = nums;
-        size = nums.length;
-
-        go(0, new ArrayList<>());
-
-        return result;
-    }
-
-    public void go(int idx, List<Integer> stack) {
-        result.add(new ArrayList<>(stack));
-
-        for(int i=idx; i<size; i++) {
-            stack.add(numsArr[i]);
-            go(i + 1, stack);
-            stack.remove(stack.size() - 1);
-        }
+    Info(int node, int cost){
+        this.node = node;
+        this.cost = cost;
     }
 }
