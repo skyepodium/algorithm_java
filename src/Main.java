@@ -3,73 +3,72 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 
-class Main {
+class Main{
 
-    static int n, m, a, b, c, startNode, endNode;
-    static ArrayList<Info>[] v;
-    static int[] d;
-    static int maxVal = Integer.MAX_VALUE;
-
+    public static int n, m, startNode, a, b, c;
+    public static int max_val = Integer.MAX_VALUE;
+    public static List<Info>[] v;
+    public static int[] d;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
+        st = new StringTokenizer(br.readLine());
 
-        st = new StringTokenizer(br.readLine());
         n = Integer.parseInt(st.nextToken());
-        st = new StringTokenizer(br.readLine());
         m = Integer.parseInt(st.nextToken());
 
         d = new int[n+1];
-
         v = new ArrayList[n+1];
+
         for(int i=0; i<=n; i++) {
+            d[i] = max_val;
             v[i] = new ArrayList<>();
-            d[i] = maxVal;
         }
+
+        st = new StringTokenizer(br.readLine());
+        startNode = Integer.parseInt(st.nextToken());
 
         for(int i=0; i<m; i++) {
             st = new StringTokenizer(br.readLine());
             a = Integer.parseInt(st.nextToken());
             b = Integer.parseInt(st.nextToken());
             c = Integer.parseInt(st.nextToken());
+
             v[a].add(new Info(b, c));
         }
 
-        st = new StringTokenizer(br.readLine());
-        startNode = Integer.parseInt(st.nextToken());
-        endNode = Integer.parseInt(st.nextToken());
-
         dijkstra(startNode);
 
-        System.out.println(d[endNode]);
-
+        for(int i=1; i<=n; i++) {
+            if(d[i] == max_val) System.out.println("INF");
+            else System.out.println(d[i]);
+        }
     }
 
-    public static void dijkstra(int node) {
-        d[node] = 0;
+    public static void dijkstra(int startNode) {
+        d[startNode] = 0;
         PriorityQueue<Info> pq = new PriorityQueue<>(new Comparator<Info>() {
             @Override
             public int compare(Info o1, Info o2) {
                 return o1.cost - o2.cost;
             }
         });
-        pq.add(new Info(node, d[node]));
+        pq.add(new Info(startNode, d[startNode]));
 
         while(!pq.isEmpty()) {
             Info cur = pq.poll();
+            int node = cur.node;
+            int cost = cur.cost;
 
-            int cNode = cur.node;
-            int cCost = cur.cost;
+            if(d[node] < cost) continue;
 
-            if(d[cNode] < cCost) continue;
+            for(Info next: v[node]) {
+                int n_node = next.node;
+                int n_cost = next.cost;
 
-            for(Info nInfo: v[cNode]) {
-                int nNode = nInfo.node;
-                int nCost = nInfo.cost;
-
-                if(d[nNode] > d[cNode] + nCost) {
-                    d[nNode] = d[cNode] + nCost;
-                    pq.add(new Info(nNode, d[nNode]));
+                if(d[n_node] > d[node] + n_cost) {
+                    d[n_node] = d[node] + n_cost;
+                    pq.add(new Info(n_node, d[n_node]));
                 }
             }
         }
@@ -77,10 +76,8 @@ class Main {
 }
 
 class Info {
-    int node;
-    int cost;
-
-    Info(int node, int cost){
+    int node, cost;
+    public Info(int node, int cost) {
         this.node = node;
         this.cost = cost;
     }
