@@ -1,37 +1,38 @@
-import java.util.PriorityQueue;
+import java.util.Stack;
 
-class Main {
-    public static void main(String[] args) {
-        int[] s = {1, 2, 3, 9, 10, 12};
-        int k = 7;
+class Solution {
+    public int solution(String s) {
 
-        Solution sl = new Solution();
+        Stack<Character> stack = new Stack<>();
 
-        int res = sl.solution(s, k);
-        System.out.println(res);
+        int size = s.length();
+        for(int i=0; i<size; i++) {
+            char cur = s.charAt(i);
+
+            if(!stack.empty()) {
+                if(stack.peek() == cur) {
+                    stack.pop();
+                }
+                else{
+                    stack.add(cur);
+                }
+            }
+            else{
+                stack.add(cur);
+            }
+        }
+        if(!stack.empty()) return 0;
+
+        return 1;
     }
 }
 
-class Solution {
-    public int solution(int[] scoville, int K) {
-        // 1. init
-        int answer = 0;
+class Main {
+    public static void main(String[] args) {
+        Solution sl = new Solution();
 
-        // 2.priority queue
-        PriorityQueue<Integer> pq = new PriorityQueue<>();
-        for(int num: scoville) {
-            pq.add(num);
-        }
+        int res = sl.solution("baabaa");
 
-        // 3. loop
-        while(pq.size() >= 2 && pq.peek() < K) {
-            int a = pq.poll();
-            int b = pq.poll();
-            pq.add(a + b * 2);
-
-            answer += 1;
-        }
-
-        return pq.peek() >= K ? answer : -1;
+        System.out.println("res " + res);
     }
 }
