@@ -1,65 +1,37 @@
-import java.util.HashMap;
-import java.util.Stack;
+import java.util.PriorityQueue;
 
 class Main {
     public static void main(String[] args) {
+        int[] s = {1, 2, 3, 9, 10, 12};
+        int k = 7;
 
         Solution sl = new Solution();
 
-        int res = sl.solution("[](){}");
-        System.out.println("res " + res);
+        int res = sl.solution(s, k);
+        System.out.println(res);
     }
 }
 
 class Solution {
-    HashMap<Character, Character> d = new HashMap<>();
-    public int solution(String s) {
-
-        // 1. set HashMap
-        d.put('{', '}');
-        d.put('(', ')');
-        d.put('[', ']');
-
-        // 2. check length
-        int size = s.length();
-
-        // 3. check and shift
+    public int solution(int[] scoville, int K) {
+        // 1. init
         int answer = 0;
-        for(int i=0; i<size; i++) {
-            if(checkValid(s)) answer++;
-            s = shift(s);
+
+        // 2.priority queue
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        for(int num: scoville) {
+            pq.add(num);
         }
 
-        return answer;
-    }
+        // 3. loop
+        while(pq.size() >= 2 && pq.peek() < K) {
+            int a = pq.poll();
+            int b = pq.poll();
+            pq.add(a + b * 2);
 
-    public String shift(String s) {
-        int size = s.length();
-        return s.substring(size-1) + s.substring(0, size-1);
-    }
-
-    public boolean checkValid(String s) {
-        int size = s.length();
-        Stack<Character> stack = new Stack<>();
-
-        for(int i=0; i<size; i++) {
-            char cur = s.charAt(i);
-
-            if(d.get(cur) != null) {
-                stack.add(cur);
-            }
-            else {
-                if(stack.isEmpty()) return false;
-
-                char top = stack.pop();
-                if(d.get(top) != cur) {
-                    return false;
-                }
-            }
+            answer += 1;
         }
 
-        if(!stack.isEmpty()) return false;
-
-        return true;
+        return pq.peek() >= K ? answer : -1;
     }
 }
