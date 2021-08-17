@@ -1,59 +1,26 @@
 class Solution {
+    public int[] twoSum(int[] numbers, int target) {
+        // 1. init
+        int l = 0;
+        int r = numbers.length - 1;
+        int[] answer= {0, 0};
 
-    int size, pivotIdx;
-    public int search(int[] nums, int target) {
-        // 0. init
-        size = nums.length;
-
-        // 1. find min idx
-        pivotIdx = findMinIdx(0, nums.length-1, nums);
-
-        return binarySearch(0, size - 1, nums, target);
-    }
-
-    public int findMinIdx(int l, int r, int[] nums){
-        while(l < r) {
-            int mid = l + (r-l) / 2;
-
-            if(nums[mid] > nums[r]) {
-                l = mid + 1;
-            }
-            else {
-                r = mid;
-            }
-        }
-        return l;
-    }
-
-    public int getOriginIdx(int curIdx) {
-        if (curIdx + pivotIdx >= size) {
-            return curIdx + pivotIdx - size;
-        }
-        else {
-            return curIdx + pivotIdx;
-        }
-    }
-
-    public int binarySearch(int l, int r, int[] nums, int target) {
+        // 2. two pointer
         while(l <= r) {
-            int mid = l + (r-l) / 2;
-            int originMidIdx = getOriginIdx(mid);
-            if(nums[originMidIdx] < target) {
-                l = mid + 1;
+            int sumVal = numbers[l] + numbers[r];
+
+            if(sumVal < target) {
+                l++;
             }
-            else if(nums[originMidIdx] > target){
-                r = mid - 1;
+            else if(sumVal > target) {
+                r--;
             }
             else {
-                return originMidIdx;
+                answer[0] = l+1;
+                answer[1] = r+1;
+                return answer;
             }
         }
-        return -1;
-    }
-}
-
-class Main {
-    public static void main(String[] args) {
-
+        return answer;
     }
 }
