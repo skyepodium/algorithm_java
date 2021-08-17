@@ -1,29 +1,49 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+
 class Solution {
-    public int[] twoSum(int[] numbers, int target) {
+    public int[] intersection(int[] nums1, int[] nums2) {
         // 1. init
-        int size = numbers.length;
-        int[] answer= {0, 0};
+        int size1 = nums1.length;
+        int size2 = nums2.length;
+        ArrayList<Integer> res = new ArrayList<>();
+        Arrays.sort(nums1);
+        Arrays.sort(nums2);
 
-        for(int i=0; i<size-1; i++) {
-            int l = i+1;
-            int r = size-1;
-            int remain = target - numbers[i];
+        for(int i=0; i<size1; i++) {
+            if(i >= 1 && nums1[i] == nums1[i-1]) {
+                continue;
+            }
 
-            while(l<=r) {
-                int mid = l + (r-l) / 2;
-                if(numbers[mid] < remain) {
-                    l = mid + 1;
-                }
-                else if(numbers[mid] > remain) {
-                    r = mid - 1;
-                }
-                else {
-                    answer[0] = i+1;
-                    answer[1] = mid + 1;
-                    return answer;
-                }
+            int val = nums1[i];
+
+            if(binarySearch(0, size2-1, nums2, val) != -1) {
+                res.add(val);
             }
         }
-        return answer;
+        int resSize = res.size();
+        int[] result = new int[resSize];
+        for(int i=0; i<resSize; i++) {
+            result[i] = res.get(i);
+        }
+
+        return result;
+    }
+
+    public int binarySearch(int l, int r, int[] nums, int target) {
+        while(l <= r) {
+            int mid = l + (r-l) / 2;
+
+            if(nums[mid] < target) {
+                l = mid + 1;
+            }
+            else if(nums[mid] > target) {
+                r = mid - 1;
+            }
+            else{
+                return mid;
+            }
+        }
+        return -1;
     }
 }
