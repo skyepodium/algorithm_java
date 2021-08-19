@@ -1,33 +1,18 @@
 class Solution {
+    int d[];
+    public int climbStairs(int n) {
+        d = new int[n+1];
 
-    int size;
-    int[] d;
-    int res;
-
-    public int maxSubArray(int[] nums) {
-        // 1. init
-        size = nums.length;
-        d = new int[size];
-        res = nums[0];
-
-        go(size-1, nums);
-
-        return res;
+        return go(n);
     }
 
-    public int go(int idx, int[] nums) {
-        if(idx < 1) return nums[0];
+    public int go(int i) {
+        if(i <= 2) return i;
 
-        if(d[idx] > 0) return d[idx];
+        if(d[i] > 0) return d[i];
 
-        d[idx] = max(nums[idx], go(idx-1, nums) + nums[idx]);
+        d[i] = go(i-2) + go(i-1);
 
-        res = max(res, d[idx]);
-
-        return d[idx];
-    }
-
-    public int max(int a, int b) {
-        return a > b ? a : b;
+        return d[i];
     }
 }
