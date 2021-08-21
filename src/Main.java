@@ -9,19 +9,18 @@
  * }
  */
 class Solution {
-    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+    public ListNode reverseList(ListNode head) {
+        // 1. init
+        ListNode rev = null;
 
-        if((l1 == null) || (l2 != null && l1.val > l2.val)) {
-            ListNode temp = null;
-            temp = l1;
-            l1 = l2;
-            l2 = temp;
+        // 2. loop
+        while(head != null) {
+            ListNode temp = head;
+            head = head.next;
+            temp.next = rev;
+            rev = temp;
         }
 
-        if(l1 != null) {
-            l1.next = this.mergeTwoLists(l1.next, l2);
-        }
-
-        return l1;
+        return rev;
     }
 }
