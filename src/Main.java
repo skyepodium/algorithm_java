@@ -1,42 +1,28 @@
-/**
- * Definition for singly-linked list.
- * public class ListNode {
- *     int val;
- *     ListNode next;
- *     ListNode() {}
- *     ListNode(int val) { this.val = val; }
- *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
- * }
- */
-class Solution {
-    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+class MyStack {
 
-        // 1. init
-        ListNode node = new ListNode(0);
-        ListNode res = node;
+    Queue<Integer> q;
 
-        int carry = 0;
-        while(l1 != null || l2 != null || carry > 0) {
-            int sumVal = 0;
+    public MyStack() {
+        this.q = new LinkedList<>();
+    }
 
-            if(l1 != null) {
-                sumVal += l1.val;
-                l1 = l1.next;
-            }
-
-            if(l2 != null) {
-                sumVal += l2.val;
-                l2 = l2.next;
-            }
-
-            int val = (sumVal + carry) % 10;
-            carry = (sumVal + carry) / 10;
-
-            node.next = new ListNode(val);;
-            node = node.next;
+    public void push(int x) {
+        this.q.add(x);
+        int size = q.size();
+        for(int i=0; i<size-1; i++) {
+            this.q.add(this.q.poll());
         }
+    }
 
-        return res.next;
+    public int pop() {
+        return this.q.poll();
+    }
+
+    public int top() {
+        return this.q.peek();
+    }
+
+    public boolean empty() {
+        return this.q.isEmpty();
     }
 }
-
