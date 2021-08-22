@@ -1,53 +1,35 @@
-import java.util.HashSet;
-import java.util.Stack;
-
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
 class Solution {
-    public String removeDuplicateLetters(String s) {
-        // 1. init
-        Stack<Character> st = new Stack<>();
-        HashSet<Character> seen = new HashSet<>();
-        int[] counter = new int[26];
-        int size = s.length();
+    public ListNode removeElements(ListNode head, int val) {
+        ListNode root = new ListNode(0, null);
+        ListNode node = root;
 
-        // 2. count
-        for(int i=0; i<size; i++) {
-            char c = s.charAt(i);
-            int order = c - 'a';
-            counter[order]++;
-        }
-
-        // 3. loop
-        for(int i=0; i<size; i++) {
-            char c = s.charAt(i);
-            int order = c - 'a';
-            counter[order]--;
-
-            if(seen.contains(c)) continue;
-
-            while(!st.empty() && st.peek() > c && counter[st.peek() - 'a'] > 0) {
-                seen.remove(st.pop());
+        while(head != null) {
+            if(head.val != val) {
+                node.next = new ListNode(head.val, null);
+                node = node.next;
             }
 
-            seen.add(c);
-            st.add(c);
+            head = head.next;
         }
 
-        // 4. return
-        String res = "";
-        while(!st.empty()) {
-            res = st.pop() + res;
-        }
-
-        return res;
+        return root.next;
     }
 }
 
-class Main{
-    public static void main(String[] args) {
-        Solution sl = new Solution();
-        String s = "bcabc";
-        String res = sl.removeDuplicateLetters(s);
-
-        System.out.println("res " + res);
-    }
+class ListNode {
+    int val;
+    ListNode next;
+    ListNode() {}
+    ListNode(int val) { this.val = val; }
+    ListNode(int val, ListNode next) { this.val = val; this.next = next; }
 }
