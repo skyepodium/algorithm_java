@@ -1,28 +1,34 @@
-class MyStack {
+import java.util.Stack;
 
-    Queue<Integer> q;
+class MyQueue {
 
-    public MyStack() {
-        this.q = new LinkedList<>();
+    Stack<Integer> left, right;
+
+    public MyQueue() {
+        left = new Stack<>();
+        right = new Stack<>();
     }
 
     public void push(int x) {
-        this.q.add(x);
-        int size = q.size();
-        for(int i=0; i<size-1; i++) {
-            this.q.add(this.q.poll());
-        }
+        this.right.add(x);
     }
 
     public int pop() {
-        return this.q.poll();
+        this.peek();
+        return left.pop();
     }
 
-    public int top() {
-        return this.q.peek();
+    public int peek() {
+        if(left.empty()){
+            while(!right.empty()) {
+                left.add(right.pop());
+            }
+        }
+
+        return left.peek();
     }
 
     public boolean empty() {
-        return this.q.isEmpty();
+        return this.left.empty() && this.right.empty();
     }
 }
