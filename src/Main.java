@@ -1,34 +1,23 @@
 import java.util.Stack;
 
-class MyQueue {
+class Solution {
+    public int[] dailyTemperatures(int[] temperatures) {
+        // 1. init
+        int size = temperatures.length;
+        int[] res = new int[size];
+        Stack<Integer> s = new Stack<>();
 
-    Stack<Integer> left, right;
-
-    public MyQueue() {
-        left = new Stack<>();
-        right = new Stack<>();
-    }
-
-    public void push(int x) {
-        this.right.add(x);
-    }
-
-    public int pop() {
-        this.peek();
-        return left.pop();
-    }
-
-    public int peek() {
-        if(left.empty()){
-            while(!right.empty()) {
-                left.add(right.pop());
+        // 2. loop
+        for(int i=0; i<size; i++) {
+            int cur = temperatures[i];
+            while(!s.empty() && temperatures[s.peek()] < cur) {
+                int top = s.pop();
+                res[top] = i - top;
             }
+
+            s.add(i);
         }
 
-        return left.peek();
-    }
-
-    public boolean empty() {
-        return this.left.empty() && this.right.empty();
+        return res;
     }
 }
