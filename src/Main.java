@@ -9,20 +9,22 @@ class Solution {
         int[] counter = new int[26];
         int size = s.length();
 
+        // 2. count
         for(int i=0; i<size; i++) {
             char c = s.charAt(i);
-            int order = (int)c - (int)'a';
+            int order = c - 'a';
             counter[order]++;
         }
 
+        // 3. loop
         for(int i=0; i<size; i++) {
             char c = s.charAt(i);
-            int order = (int)c - (int)'a';
+            int order = c - 'a';
             counter[order]--;
 
             if(seen.contains(c)) continue;
 
-            while(!st.empty() && st.peek() > c && counter[(int)st.peek() - (int)'a'] > 0) {
+            while(!st.empty() && st.peek() > c && counter[st.peek() - 'a'] > 0) {
                 seen.remove(st.pop());
             }
 
@@ -30,6 +32,7 @@ class Solution {
             st.add(c);
         }
 
+        // 4. return
         String res = "";
         while(!st.empty()) {
             res = st.pop() + res;
@@ -42,7 +45,6 @@ class Solution {
 class Main{
     public static void main(String[] args) {
         Solution sl = new Solution();
-
         String s = "bcabc";
         String res = sl.removeDuplicateLetters(s);
 
