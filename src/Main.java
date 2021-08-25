@@ -1,27 +1,24 @@
 class Solution {
-    public String addStrings(String num1, String num2) {
-        // 1. init
-        int n = num1.length() - 1;
-        int m = num2.length() - 1;
+    int res = 0;
+    public int maxDepth(TreeNode root) {
+        // 1. exception
+        if(root == null) return 0;
 
-        char[] num1Array = num1.toCharArray();
-        char[] num2Array = num2.toCharArray();
+        // 2. dfs
+        dfs(root, 1);
 
-        // 2. loop
-        int carry = 0;
-        String res = "";
-        while(n >= 0 || m >= 0 || carry > 0) {
-            int a = n >= 0 ? num1Array[n--] - '0' : 0;
-            int b = m >= 0 ? num2Array[m--] - '0' : 0;
+        return res;
+    }
 
-            int sumVal = a + b + carry;
-            carry = sumVal / 10;
-            int val = sumVal % 10;
-            res += Integer.toString(val);
+    public void dfs(TreeNode root, int cnt) {
+        if(root == null) return;
+
+        if(root.left == null && root.right == null) {
+            res = Math.max(res, cnt);
         }
 
-        // 3. reverse
-        StringBuffer sb = new StringBuffer(res);
-        return sb.reverse().toString();
+        dfs(root.left, cnt + 1);
+        dfs(root.right, cnt + 1);
+
     }
 }
