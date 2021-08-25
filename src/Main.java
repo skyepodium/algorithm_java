@@ -1,6 +1,6 @@
 class Solution {
-    int res = 0;
-    public int maxDepth(TreeNode root) {
+    int res = 100001;
+    public int minDepth(TreeNode root) {
         // 1. exception
         if(root == null) return 0;
 
@@ -14,7 +14,7 @@ class Solution {
         if(root == null) return;
 
         if(root.left == null && root.right == null) {
-            res = Math.max(res, cnt);
+            res = Math.min(res, cnt);
         }
 
         dfs(root.left, cnt + 1);
