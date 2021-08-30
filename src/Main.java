@@ -1,23 +1,28 @@
-import java.util.Arrays;
+import java.util.Stack;
 
 class Solution {
-    public int solution(int[] people, int limit) {
+    public String solution(String number, int k) {
         // 1. init
-        int l = 0;
-        int r = people.length - 1;
-        int res = 0;
+        Stack<Character> s = new Stack<>();
+        String res = "";
+        int size = number.length();
 
-        // 2. sort
-        Arrays.sort(people);
-
-        // 3. two pointer
-        while(l <= r) {
-            res++;
-
-            if(people[l] + people[r] <= limit) {
-                l++;
+        for(int i=0; i<size; i++) {
+            char c = number.charAt(i);
+            while(k > 0 && !s.empty() && s.peek() < c) {
+                k--;
+                s.pop();
             }
-            r--;
+            s.add(c);
+        }
+
+        while(k > 0) {
+            s.pop();
+            k--;
+        }
+
+        while(!s.empty()) {
+            res = s.pop() + res;
         }
 
         return res;
