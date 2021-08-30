@@ -1,28 +1,14 @@
-import java.util.Stack;
-
 class Solution {
-    public String solution(String number, int k) {
+    public int solution(String skill, String[] skill_trees) {
         // 1. init
-        Stack<Character> s = new Stack<>();
-        String res = "";
-        int size = number.length();
+        String pattern = "[^"+skill+"]";
+        int res = 0;
 
-        for(int i=0; i<size; i++) {
-            char c = number.charAt(i);
-            while(k > 0 && !s.empty() && s.peek() < c) {
-                k--;
-                s.pop();
-            }
-            s.add(c);
-        }
+        // 2. loop
+        for(String s: skill_trees) {
+            String r = s.replaceAll(pattern, "");
 
-        while(k > 0) {
-            s.pop();
-            k--;
-        }
-
-        while(!s.empty()) {
-            res = s.pop() + res;
+            if(skill.indexOf(r) == 0) res++;
         }
 
         return res;
