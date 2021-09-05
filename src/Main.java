@@ -1,27 +1,21 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 class Solution {
-    public List<String> fizzBuzz(int n) {
+    public int thirdMax(int[] nums) {
         // 1. init
-        List<String> res = new ArrayList<>();
+        HashSet<Integer> s = new HashSet<>();
+        List<Integer> a = new ArrayList<>();
 
-        // 2. loop
-        for(int i=1; i<=n; i++) {
-            if(i%3 == 0 && i%5==0) {
-                res.add("FizzBuzz");
-            }
-            else if(i%3 == 0) {
-                res.add("Fizz");
-            }
-            else if(i%5 == 0) {
-                res.add("Buzz");
-            }
-            else {
-                res.add(Integer.toString(i));
+        for(int i: nums) {
+            if(!s.contains(i)) {
+                s.add(i);
+                a.add(i);
             }
         }
 
-        return res;
+        // 2. sort
+        a.sort(Comparator.reverseOrder());
+
+        return a.size() < 3 ? a.get(0) : a.get(2);
     }
 }
