@@ -1,21 +1,19 @@
 class Solution {
-    List<Integer> res = new ArrayList<>();
-    public List<Integer> postorderTraversal(TreeNode root) {
-        // 1. exception
-        if(root == null) return res;
-
-        // 2. postOrder
-        postOrder(root);
+    int res = 0;
+    public int sumOfLeftLeaves(TreeNode root) {
+        go(root, false);
 
         return res;
     }
 
-    public void postOrder(TreeNode node) {
+    public void go(TreeNode node, Boolean isLeft) {
         if(node == null) return;
 
-        postOrder(node.left);
-        postOrder(node.right);
-        res.add(node.val);
+        if(node.left == null && node.right == null && isLeft) {
+            res += node.val;
+        }
 
+        go(node.left, true);
+        go(node.right, false);
     }
 }
