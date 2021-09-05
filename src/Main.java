@@ -1,21 +1,31 @@
-import java.util.*;
-
 class Solution {
-    public int thirdMax(int[] nums) {
-        // 1. init
-        HashSet<Integer> s = new HashSet<>();
-        List<Integer> a = new ArrayList<>();
+    int[] d;
+    public int countPrimes(int n) {
+        // 1. exception
+        if(n <= 2) return 0;
 
-        for(int i: nums) {
-            if(!s.contains(i)) {
-                s.add(i);
-                a.add(i);
-            }
+        // 2. init
+        d = new int[n+1];
+        int res = 0;
+
+        // 3. eratos
+        eratos(n);
+
+        // 4. check
+        for(int i=2; i<n; i++) {
+            if(d[i] == 0) res++;
         }
 
-        // 2. sort
-        a.sort(Comparator.reverseOrder());
+        return res;
+    }
 
-        return a.size() < 3 ? a.get(0) : a.get(2);
+    public void eratos(int n) {
+        for(int i=2; i*i<=n; i++) {
+            for(int j=i*2; j<=n; j=j+i) {
+                if(d[j] == 0) {
+                    d[j] = 1;
+                }
+            }
+        }
     }
 }
