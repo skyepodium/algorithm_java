@@ -1,19 +1,27 @@
+import java.util.ArrayList;
+import java.util.List;
+
 class Solution {
-    int res = 0;
-    public int sumOfLeftLeaves(TreeNode root) {
-        go(root, false);
+    public List<String> fizzBuzz(int n) {
+        // 1. init
+        List<String> res = new ArrayList<>();
 
-        return res;
-    }
-
-    public void go(TreeNode node, Boolean isLeft) {
-        if(node == null) return;
-
-        if(node.left == null && node.right == null && isLeft) {
-            res += node.val;
+        // 2. loop
+        for(int i=1; i<=n; i++) {
+            if(i%3 == 0 && i%5==0) {
+                res.add("FizzBuzz");
+            }
+            else if(i%3 == 0) {
+                res.add("Fizz");
+            }
+            else if(i%5 == 0) {
+                res.add("Buzz");
+            }
+            else {
+                res.add(Integer.toString(i));
+            }
         }
 
-        go(node.left, true);
-        go(node.right, false);
+        return res;
     }
 }
