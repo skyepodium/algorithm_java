@@ -1,31 +1,12 @@
 class Solution {
-    int[] d;
-    public int countPrimes(int n) {
-        // 1. exception
-        if(n <= 2) return 0;
+    public int removeDuplicates(int[] nums) {
+        int cnt = 0;
+        int n = nums.length;
 
-        // 2. init
-        d = new int[n+1];
-        int res = 0;
-
-        // 3. eratos
-        eratos(n);
-
-        // 4. check
-        for(int i=2; i<n; i++) {
-            if(d[i] == 0) res++;
+        for(int i=1; i<n; i++) {
+            if(nums[i] == nums[i-1]) cnt++;
+            else nums[i-cnt] = nums[i];
         }
-
-        return res;
-    }
-
-    public void eratos(int n) {
-        for(int i=2; i*i<=n; i++) {
-            for(int j=i*2; j<=n; j=j+i) {
-                if(d[j] == 0) {
-                    d[j] = 1;
-                }
-            }
-        }
+        return n - cnt;
     }
 }
