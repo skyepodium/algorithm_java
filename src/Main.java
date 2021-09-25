@@ -1,13 +1,24 @@
 class Solution {
-    public int removeElement(int[] nums, int val) {
-        int cnt = 0;
-        int n = nums.length;
+    public int singleNumber(int[] nums) {
+        // 1. init
+        int res = nums[0];
+        int size = nums.length;
 
-        for(int i=0; i<n; i++) {
-            if(nums[i] == val) cnt++;
-            else nums[i-cnt] = nums[i];
+        // 2. xor
+        for(int i=1; i<size; i++) {
+            res ^= nums[i];
         }
 
-        return n - cnt;
+        return res;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Solution sl = new Solution();
+        int[] nums = {2, 2, 1};
+        int res = sl.singleNumber(nums);
+
+        System.out.println("res " + res);
     }
 }
