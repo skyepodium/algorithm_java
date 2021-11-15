@@ -1,22 +1,19 @@
 class Solution {
     public int binaryGap(int n) {
-        // 1. int to binary str
-        String s = "";
-        while(n > 0) {
-            s += n%2;
-            n /= 2;
-        }
-
-        int cnt = 0;
+        // 1. init
         int maxDist = 0;
-        for(int i=0; i<s.length(); i++) {
-            if(s.charAt(i) == '1') {
+        int cnt = 0;
+
+        // 2. loop
+        while(n > 0) {
+            if(n%2 == 1) {
                 maxDist = Math.max(maxDist, cnt);
                 cnt = 1;
             }
             else {
-                if(cnt > 0) cnt += 1;
+                if(cnt > 0) cnt++;
             }
+            n /= 2;
         }
 
         return maxDist;
