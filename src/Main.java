@@ -1,33 +1,24 @@
-class Main {
-    public static void main(String[] args) {
-
-
-    }
-}
-
 class Solution {
-    public int search(int[] nums, int target) {
+    public int binaryGap(int n) {
+        // 1. int to binary str
+        String s = "";
+        while(n > 0) {
+            s += n%2;
+            n /= 2;
+        }
 
-        return binarySearch(0, nums.length - 1, nums, target);
-    }
-
-    public int binarySearch(int s, int e, int[] nums, int target) {
-
-        while (s <= e) {
-            int mid = s + (e-s) / 2;
-
-            if(nums[mid] < target) {
-                s = mid + 1;
-            }
-            else if(nums[mid] > target) {
-                e = mid - 1;
+        int cnt = 0;
+        int maxDist = 0;
+        for(int i=0; i<s.length(); i++) {
+            if(s.charAt(i) == '1') {
+                maxDist = Math.max(maxDist, cnt);
+                cnt = 1;
             }
             else {
-                return mid;
+                if(cnt > 0) cnt += 1;
             }
         }
 
-        return -1;
+        return maxDist;
     }
 }
-
