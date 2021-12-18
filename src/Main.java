@@ -1,13 +1,16 @@
 class Solution {
-    public int numberOfSteps(int num) {
-        int result = 0;
+    public int subtractProductAndSum(int n) {
 
-        while(num > 0) {
-            result += 1;
-            if(num%2 == 0) num /= 2;
-            else num -= 1;
+        int p = 1;
+        int s = 0;
+
+        while(n > 0) {
+            int x = n % 10;
+            p *= x;
+            s += x;
+            n /= 10;
         }
 
-        return result;
+        return p - s;
     }
 }
