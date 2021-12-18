@@ -1,36 +1,13 @@
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
-class Main {
-    public static void main(String[] args) {
-
-        Solution sl = new Solution();
-
-        List<Integer> res = sl.selfDividingNumbers(1, 22);
-        res.stream().forEach(System.out::println);
-    }
-}
-
 class Solution {
-    public List<Integer> selfDividingNumbers(int left, int right) {
+    public int numJewelsInStones(String jewels, String stones) {
+        int cnt = 0;
 
-        return IntStream.range(left, right + 1)
-                        .filter(this::check)
-                        .boxed()
-                        .collect(Collectors.toList());
-    }
+        for(int i=0; i<stones.length(); i++) {
+            String cur = stones.charAt(i) + "";
 
-    public boolean check(int num) {
-        String strNum = Integer.toString(num);
-
-        for(int i=0; i<strNum.length(); i++) {
-            char cur = strNum.charAt(i);
-
-            if(cur == '0') return false;
-
-            if(num % ((int)cur - (int)'0') != 0) return false;
+            if(jewels.contains(cur)) cnt++;
         }
-        return true;
+
+        return cnt;
     }
 }
