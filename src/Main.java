@@ -1,13 +1,13 @@
 class Solution {
-    public int numJewelsInStones(String jewels, String stones) {
-        int cnt = 0;
+    public int numberOfSteps(int num) {
+        int result = 0;
 
-        for(int i=0; i<stones.length(); i++) {
-            String cur = stones.charAt(i) + "";
-
-            if(jewels.contains(cur)) cnt++;
+        while(num > 0) {
+            result += 1;
+            if(num%2 == 0) num /= 2;
+            else num -= 1;
         }
 
-        return cnt;
+        return result;
     }
 }
