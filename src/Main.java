@@ -1,16 +1,12 @@
 class Solution {
-    public int subtractProductAndSum(int n) {
+    public int getDecimalValue(ListNode head) {
+        int res = 0;
 
-        int p = 1;
-        int s = 0;
-
-        while(n > 0) {
-            int x = n % 10;
-            p *= x;
-            s += x;
-            n /= 10;
+        while(head != null) {
+            res = res * 2 + head.val;
+            head = head.next;
         }
 
-        return p - s;
+        return res;
     }
 }
