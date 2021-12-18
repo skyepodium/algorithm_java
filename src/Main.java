@@ -1,24 +1,36 @@
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 class Main {
     public static void main(String[] args) {
 
+        Solution sl = new Solution();
 
-
+        List<Integer> res = sl.selfDividingNumbers(1, 22);
+        res.stream().forEach(System.out::println);
     }
 }
 
 class Solution {
-    public boolean containsDuplicate(int[] nums) {
-        Set<Integer> s = new HashSet<>();
+    public List<Integer> selfDividingNumbers(int left, int right) {
 
-        for(int x: nums) {
-            if(!s.contains(x)) s.add(x);
-            else return true;
+        return IntStream.range(left, right + 1)
+                        .filter(this::check)
+                        .boxed()
+                        .collect(Collectors.toList());
+    }
+
+    public boolean check(int num) {
+        String strNum = Integer.toString(num);
+
+        for(int i=0; i<strNum.length(); i++) {
+            char cur = strNum.charAt(i);
+
+            if(cur == '0') return false;
+
+            if(num % ((int)cur - (int)'0') != 0) return false;
         }
-
-        return false;
+        return true;
     }
 }

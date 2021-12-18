@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fd7e4aed-a6ff-48ca-baa5-7f9bb7afc3f9" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/algorithm_java/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/algorithm_java/Main.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/algorithm_java/Solution.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/algorithm_java/Solution.class" afterDir="false" />
@@ -155,7 +154,7 @@
       <workItem from="1639722375452" duration="1005000" />
       <workItem from="1639745919676" duration="1016000" />
       <workItem from="1639787399107" duration="3324000" />
-      <workItem from="1639795309677" duration="2796000" />
+      <workItem from="1639795309677" duration="4905000" />
     </task>
     <servers />
   </component>
