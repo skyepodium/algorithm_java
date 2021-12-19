@@ -1,39 +1,87 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Stack;
 
 class Solution {
 
-    public static List<Integer> sqNums = new ArrayList<>();
-    public static int[] d;
-    public int numSquares(int n) {
+    public int n, m;
+    public boolean [][]check;
+    public char [][]b;
+    public int []dx = {0, 0, 1, -1};
+    public int []dy = {-1, 1, 0, 0};
+    public Stack<Position> s;
+    public void solve(char[][] board) {
         // 1. init
-        d = new int[n+1];
-        for(int i=0; i<=n; i++) {
-            d[i] = 10000;
+        b = board;
+        n = board.length;
+        m = board[0].length;
+        check = new boolean[n+1][m+1];
+        for(int i=0; i<n; i++) {
+            for(int j=0; j<m; j++) {
+                check[i][j] = false;
+            }
+        }
+        s = new Stack<>();
+
+        // 2. loop
+        for(int i=0; i<n; i++) {
+            for(int j=0; j<m; j++) {
+                if(!check[i][j] && b[i][j] == 'O') {
+                    boolean isAdjacentToBorder = bfs(i, j);
+                    if(!isAdjacentToBorder)
+                        flip();
+                    else
+                        s.clear();
+                }
+            }
         }
 
-        for(int i=1; i<101; i++) {
-            int sqNum = i * i;
-            sqNums.add(sqNum);
-            if(sqNum <= n) {
-                d[sqNum] = 1;
+    }
+
+    public void flip(){
+        for(Position p: s) {
+            b[p.x][p.y] = 'X';
+        }
+    }
+
+    public boolean bfs(int x, int y) {
+        Queue<Position> q = new LinkedList<>();
+        check[x][y] = true;
+        q.add(new Position(x, y));
+        boolean isAdjacentToBorder = false;
+
+        while(!q.isEmpty()) {
+            Position p = q.poll();
+            s.add(p);
+            x = p.x;
+            y = p.y;
+            if(x == 0 || x == n-1 || y == 0 || y == m-1) {
+                isAdjacentToBorder = true;
+            }
+
+            for(int i=0; i<4; i++) {
+                int nx = x + dx[i];
+                int ny = y + dy[i];
+
+                if(nx < 0 || nx >= n || ny < 0 || ny >= m) continue;
+
+                if(!check[nx][ny] && 'O' == b[nx][ny]) {
+                    check[nx][ny] = true;
+                    q.add(new Position(nx, ny));
+                }
             }
 
         }
 
-        // 2. bottom up
-        for(int i=1; i<=n; i++) {
-            for(Integer sqNum: sqNums) {
-                if(i + sqNum <= n) {
-                    d[i + sqNum] = Math.min(d[i + sqNum], d[i] + 1);
-                }
-                else {
-                    break;
-                }
+        return isAdjacentToBorder;
+    }
+}
 
-            }
-        }
+class Position {
+    int x, y;
 
-        return d[n];
+    public Position(int x, int y) {
+        this.x = x;
+        this.y = y;
     }
 }
