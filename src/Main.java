@@ -1,43 +1,39 @@
+import java.util.ArrayList;
+import java.util.List;
+
 class Solution {
 
-    public int[][] check;
-    public char[][] a;
-    public int n, m, cnt;
-    public int[] dx = {0, 0, 1, -1};
-    public int[] dy = {-1, 1, 0, 0};
+    public static List<Integer> sqNums = new ArrayList<>();
+    public static int[] d;
+    public int numSquares(int n) {
+        // 1. init
+        d = new int[n+1];
+        for(int i=0; i<=n; i++) {
+            d[i] = 10000;
+        }
 
-    public int numIslands(char[][] grid) {
+        for(int i=1; i<101; i++) {
+            int sqNum = i * i;
+            sqNums.add(sqNum);
+            if(sqNum <= n) {
+                d[sqNum] = 1;
+            }
 
-        n = grid.length;
-        m = grid[0].length;
+        }
 
-        check = new int[n][m];
-
-        a = grid;
-
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
-                if (a[i][j] == '1' && check[i][j] == 0) {
-                    dfs(i, j);
-                    cnt++;
+        // 2. bottom up
+        for(int i=1; i<=n; i++) {
+            for(Integer sqNum: sqNums) {
+                if(i + sqNum <= n) {
+                    d[i + sqNum] = Math.min(d[i + sqNum], d[i] + 1);
                 }
+                else {
+                    break;
+                }
+
             }
         }
-        return cnt;
-    }
 
-    public void dfs(int x, int y) {
-        check[x][y] = 1;
-
-        for(int i=0; i<4; i++) {
-            int nx = x + dx[i];
-            int ny = y + dy[i];
-
-            if(nx < 0 || nx >= n || ny < 0 || ny >= m) continue;
-
-            if(a[nx][ny] == '1' && check[nx][ny] == 0) {
-                dfs(nx, ny);
-            }
-        }
+        return d[n];
     }
 }
