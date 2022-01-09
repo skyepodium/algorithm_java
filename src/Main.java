@@ -1,17 +1,19 @@
-class Main {
-    public static void main(String[] args) throws Exception {
+import java.util.ArrayList;
+import java.util.List;
 
-        Calculator calculator = new Calculator() {
-            @Override
-            public int sumDefault(int x, int y) {
-                return x * y;
+class Solution {
+    public List<Integer> findDuplicates(int[] nums) {
+        List<Integer> res = new ArrayList<>();
+
+        for(int i=0; i<nums.length; i++) {
+            int x = nums[i];
+
+            if(nums[Math.abs(x) - 1] < 0) {
+                res.add(Math.abs(x));
+            }else{
+                nums[Math.abs(x) - 1] *= -1;
             }
-        };
-
-        int sumResultDefault = calculator.sumDefault(3, 4);
-        System.out.println(sumResultDefault);
-
-        int sumResultStatic = Calculator.sumStatic(1, 2);
-        System.out.println(sumResultStatic);
+        }
+        return res;
     }
 }
