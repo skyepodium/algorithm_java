@@ -3,6 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="fd7e4aed-a6ff-48ca-baa5-7f9bb7afc3f9" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/algorithm_java/Calculator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/algorithm_java/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/algorithm_java/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Calculator.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -16,8 +19,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -164,7 +167,8 @@
       <workItem from="1641097424975" duration="3391000" />
       <workItem from="1641106487171" duration="2296000" />
       <workItem from="1641728660882" duration="2530000" />
-      <workItem from="1641819938209" duration="1218000" />
+      <workItem from="1641819938209" duration="1701000" />
+      <workItem from="1641991559828" duration="2689000" />
     </task>
     <servers />
   </component>
