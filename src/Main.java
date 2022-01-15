@@ -1,26 +1,17 @@
-class Solution {
-    public int sumOddLengthSubarrays(int[] arr) {
-        // 1. init
-        int n = arr.length;
-        int res = 0;
+import java.util.concurrent.*;
 
-        // 2. loop
-        for(int i=1; i<=n; i=i+2) {
-            for(int j=0; j<n-i+1; j++) {
-                res += getSum(arr, j, j+i-1);
-            }
+class Main {
+    public static void main(String args[]) {
+        // 1. 스레드 풀 생성
+        ExecutorService service = Executors.newCachedThreadPool();
+
+        // 2. 반복문을 통해 - 여러개의 스레드가 거의 동시에 인스턴스를 생성
+        for (int i = 0; i < 10; i++) {
+            service.submit(() -> {
+                Settings.getInstance();
+            });
         }
-
-        return res;
-    }
-
-    public int getSum(int[] arr, int start, int end) {
-        int res = 0;
-
-        for(int i=start; i<=end; i++) {
-            res += arr[i];
-        }
-
-        return res;
+        // 3. 종료
+        service.shutdown();
     }
 }

@@ -1,14 +1,14 @@
 public class Settings {
     private static Settings instance;
 
-    private Settings() {}
+    private Settings() {
+        System.out.println("새로운 인스턴스가 생성되었습니다.");
+    }
 
-    public static synchronized Settings getInstance() {
-        if(instance == null) {
-            System.out.println("inner");
+    public static Settings getInstance() {
+        if (instance == null) {
             instance = new Settings();
         }
-
         return instance;
     }
 }
