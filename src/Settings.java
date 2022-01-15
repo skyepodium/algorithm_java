@@ -1,14 +1,16 @@
 public class Settings {
-    private static Settings instance;
-
+    // 1. private 생성자
     private Settings() {
-        System.out.println("새로운 인스턴스가 생성되었습니다.");
+        throw new RuntimeException("싱글턴 인스턴스를 리플렉션으로 생성할 수 없습니다.");
     }
 
+    // 2. static inner 클래스
+    private static class SettingsHolder {
+        private static final Settings INSTANCE = new Settings();
+    }
+
+    // 3. static 메서드
     public static Settings getInstance() {
-        if (instance == null) {
-            instance = new Settings();
-        }
-        return instance;
+        return SettingsHolder.INSTANCE;
     }
 }
