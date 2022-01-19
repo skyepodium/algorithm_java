@@ -4,33 +4,36 @@ import java.util.List;
 class Solution {
     public boolean isPalindrome(ListNode head) {
         // 1. init
-        List<Integer> valList = new ArrayList<>();
+        ListNode rev = null;
+        ListNode fast = head;
+        ListNode slow = head;
 
-        // 2. loop
-        while(head != null) {
-            valList.add(head.val);
-            head = head.next;
+        // 2. runner
+        while(fast != null && fast.next != null) {
+            fast = fast.next.next;
+
+            ListNode temp = slow;
+            ListNode prev = rev;
+            slow = slow.next;
+            rev = temp;
+            rev.next = prev;
         }
 
-        // 3. two pointer
-        int l = 0;
-        int r = valList.size() - 1;
+        // 3. check
+        if(fast != null) slow = slow.next;
 
-        while(l < r) {
-            if(valList.get(l) != valList.get(r)) return false;
-
-            l++;
-            r--;
+        // 4. loop
+        while(rev != null && rev.val == slow.val) {
+            slow = slow.next;
+            rev = rev.next;
         }
 
-        return true;
+        return rev == null;
     }
 }
-
 class ListNode {
-int val;
-ListNode next;
-ListNode() {}
-ListNode(int val) { this.val = val; }
-ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+    int val;
+    ListNode next;
+    ListNode() {}
+    ListNode(int val) { this.val = val; }
 }
