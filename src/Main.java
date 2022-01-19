@@ -1,19 +1,36 @@
-// Main.java
-import java.util.concurrent.*;
+import java.util.ArrayList;
+import java.util.List;
 
-class Main {
-    public static void main(String args[]) {
-        // 1. 스레드 풀 생성
-        ExecutorService service = Executors.newCachedThreadPool();
+class Solution {
+    public boolean isPalindrome(ListNode head) {
+        // 1. init
+        List<Integer> valList = new ArrayList<>();
 
-        // 2. 반복문을 통해 - 여러개의 스레드가 거의 동시에 인스턴스를 생성
-        for (int i = 0; i < 10; i++) {
-            service.submit(() -> {
-                Settings settings = Settings.INSTANCE;
-                settings.plusCount();
-            });
+        // 2. loop
+        while(head != null) {
+            valList.add(head.val);
+            head = head.next;
         }
-        // 3. 종료
-        service.shutdown();
+
+        // 3. two pointer
+        int l = 0;
+        int r = valList.size() - 1;
+
+        while(l < r) {
+            if(valList.get(l) != valList.get(r)) return false;
+
+            l++;
+            r--;
+        }
+
+        return true;
     }
+}
+
+class ListNode {
+int val;
+ListNode next;
+ListNode() {}
+ListNode(int val) { this.val = val; }
+ListNode(int val, ListNode next) { this.val = val; this.next = next; }
 }
