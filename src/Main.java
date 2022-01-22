@@ -4,42 +4,48 @@ import java.util.Collections;
 import java.util.List;
 
 class Solution {
-    public String[] reorderLogFiles(String[] logs) {
-
+    public int[] twoSum(int[] nums, int target) {
         // 1. init
-        List<String> letters = new ArrayList<>();
-        List<String> digits = new ArrayList<>();
-
-        // 2. loop
-        Arrays.stream(logs).forEach(x -> {
-            if(isDigit(x.split(" ")[1])) digits.add(x);
-            else letters.add(x);
-        });
-
-        // 3. sort
-        Collections.sort(letters, (a, b) -> {
-            String[] first = a.split(" ", 2);
-            String[] second = b.split(" ", 2);
-
-            if(first[1].equals(second[1])) {
-                return first[0].compareTo(second[0]);
-            } else{
-                return first[1].compareTo(second[1]);
-            }
-        });
-
-        // 4. to array
-        letters.addAll(digits);
-        String[] res = new String[letters.size()];
-        return letters.toArray(res);
-    }
-
-    // 5. check isDigit
-    public Boolean isDigit(String s) {
-        int size = s.length();
-        for(int i=0; i<size; i++) {
-            if(!Character.isDigit(s.charAt(i))) return false;
+        int[] res = new int[2];
+        List<Info> numList = new ArrayList<>();
+        for(int i=0; i<nums.length; i++) {
+            numList.add(new Info(nums[i], i));
         }
-        return true;
+
+        // 2. sort
+        numList.sort((a, b) -> {
+            return a.num - b.num;
+        });
+
+        // 3. two pointer
+        int l = 0;
+        int r = nums.length - 1;
+        while(l < r) {
+            int cur = numList.get(l).num + numList.get(r).num;
+
+            if(cur < target) {
+                l++;
+            }
+            else if(cur > target) {
+                r--;
+            }
+            else {
+                res[0] = numList.get(l).idx;
+                res[1] = numList.get(r).idx;
+                break;
+            }
+        }
+
+        return res;
+    }
+}
+
+class Info {
+    int num;
+    int idx;
+
+    public Info(int num, int idx) {
+        this.num = num;
+        this.idx = idx;
     }
 }
