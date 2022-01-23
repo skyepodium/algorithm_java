@@ -1,21 +1,17 @@
-import java.util.HashMap;
-import java.util.Map;
-
 class Solution {
-    public boolean containsNearbyDuplicate(int[] nums, int k) {
-        // 1. init
-        Map<Integer, Integer> m = new HashMap<>();
+    public int addDigits(int num) {
 
-        // 2. loop
-        for(int i=0; i<nums.length; i++) {
-            int cur = nums[i];
-            if(m.containsKey(cur) && i - m.get(cur) <= k) {
-                return true;
+        while(num >= 10) {
+            int n = num;
+            int res = 0;
+
+            while(n > 0) {
+                res += n % 10;
+                n /= 10;
             }
-
-            m.put(cur, i);
+            num = res;
         }
 
-        return false;
+        return num;
     }
 }
