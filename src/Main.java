@@ -1,26 +1,21 @@
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 class Solution {
-    public int[] twoSum(int[] nums, int target) {
+    public boolean containsNearbyDuplicate(int[] nums, int k) {
         // 1. init
-        int[] res = new int[2];
         Map<Integer, Integer> m = new HashMap<>();
 
         // 2. loop
         for(int i=0; i<nums.length; i++) {
             int cur = nums[i];
-            int remain = target - cur;
-            if(m.containsKey(remain)) {
-                int idx = m.get(remain);
-                res[0] = idx;
-                res[1] = i;
-                break;
+            if(m.containsKey(cur) && i - m.get(cur) <= k) {
+                return true;
             }
-            else {
-                m.put(cur, i);
-            }
+
+            m.put(cur, i);
         }
 
-        return res;
+        return false;
     }
 }
