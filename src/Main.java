@@ -1,22 +1,50 @@
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.ArrayList;
+import java.util.List;
 
-class Main {
-    public static void main(String args[]) {
-        // 1. 스레드 풀 생성
-        ExecutorService service = Executors.newCachedThreadPool();
+class Solution {
+    public int[] sortByBits(int[] arr) {
+        // 1. init
+        List<Info> arrList = new ArrayList<>();
+        int[] res = new int[arr.length];
 
-        // 2. 반복문을 통해 - 10개의 스레드가 동시에 인스턴스 생성
-        for (int i = 0; i < 10; i++) {
-            service.submit(() -> {
-                System.out.println(SingleTon.INSTANCE);
-            });
+        // 2. loop
+        for(int num: arr) {
+            arrList.add(new Info(num, getOneCnt(num)));
         }
-        // 3. 종료
-        service.shutdown();
+
+        // 3. sort
+        arrList.sort((a, b) -> {
+            if(a.oneCnt == b.oneCnt) return a.num - b.num;
+            else return a.oneCnt - b.oneCnt;
+        });
+
+        int idx = 0;
+        for(Info x: arrList) {
+            res[idx++] = x.num;
+        }
+
+        return res;
+    }
+
+    public int getOneCnt (int num) {
+        int oneCnt = 0;
+        while(num > 0) {
+            if(num%2 == 1) oneCnt++;
+            num /= 2;
+        }
+        return oneCnt;
     }
 }
 
-enum SingleTon {
-    INSTANCE;
+class Info {
+    int num;
+    int oneCnt;
+    public Info(int num, int oneCnt) {
+        this.num = num;
+        this.oneCnt = oneCnt;
+    }
+}
+
+class Main {
+
 }

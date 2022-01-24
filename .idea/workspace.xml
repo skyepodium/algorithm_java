@@ -3,10 +3,15 @@
   <component name="ChangeListManager">
     <list default="true" id="fd7e4aed-a6ff-48ca-baa5-7f9bb7afc3f9" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/algorithm_java/A$innerA.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/algorithm_java/A.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/algorithm_java/B.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/algorithm_java/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/algorithm_java/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/algorithm_java/Settings.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/algorithm_java/Settings.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/algorithm_java/Settings$SettingsHolder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/algorithm_java/Settings.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/algorithm_java/Temp$SettingsHolder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/algorithm_java/Temp.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Settings.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Settings.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,12 +41,12 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="jar://$USER_HOME$/Library/Java/JavaVirtualMachines/azul-11.0.9.1/Contents/Home/lib/src.zip!/java.base/java/lang/String.java" root0="SKIP_INSPECTION" />
-    <setting file="jar://$USER_HOME$/Library/Java/JavaVirtualMachines/azul-11.0.9.1/Contents/Home/lib/src.zip!/java.base/java/lang/StringBuilder.java" root0="SKIP_INSPECTION" />
-    <setting file="jar://$USER_HOME$/Library/Java/JavaVirtualMachines/azul-11.0.9.1/Contents/Home/lib/src.zip!/java.base/java/lang/StringBuffer.java" root0="SKIP_INSPECTION" />
-    <setting file="jar://$USER_HOME$/Library/Java/JavaVirtualMachines/azul-11.0.9.1/Contents/Home/lib/src.zip!/java.base/java/lang/Runtime.java" root0="SKIP_INSPECTION" />
     <setting file="jar://$USER_HOME$/Library/Java/JavaVirtualMachines/azul-11.0.9.1/Contents/Home/lib/src.zip!/java.base/java/io/BufferedReader.java" root0="SKIP_INSPECTION" />
     <setting file="jar://$USER_HOME$/Library/Java/JavaVirtualMachines/azul-11.0.9.1/Contents/Home/lib/src.zip!/java.base/java/lang/AbstractStringBuilder.java" root0="SKIP_INSPECTION" />
+    <setting file="jar://$USER_HOME$/Library/Java/JavaVirtualMachines/azul-11.0.9.1/Contents/Home/lib/src.zip!/java.base/java/lang/StringBuilder.java" root0="SKIP_INSPECTION" />
+    <setting file="jar://$USER_HOME$/Library/Java/JavaVirtualMachines/azul-11.0.9.1/Contents/Home/lib/src.zip!/java.base/java/lang/StringBuffer.java" root0="SKIP_INSPECTION" />
+    <setting file="jar://$USER_HOME$/Library/Java/JavaVirtualMachines/azul-11.0.9.1/Contents/Home/lib/src.zip!/java.base/java/lang/String.java" root0="SKIP_INSPECTION" />
+    <setting file="jar://$USER_HOME$/Library/Java/JavaVirtualMachines/azul-11.0.9.1/Contents/Home/lib/src.zip!/java.base/java/lang/Runtime.java" root0="SKIP_INSPECTION" />
   </component>
   <component name="ProjectId" id="1OtdZV5Hxo1nTlIBkRpVUJumtVx" />
   <component name="ProjectViewState">
@@ -181,7 +186,12 @@
       <workItem from="1642218434665" duration="12427000" />
       <workItem from="1642256819498" duration="1814000" />
       <workItem from="1642504819117" duration="7775000" />
-      <workItem from="1642597522577" duration="1719000" />
+      <workItem from="1642597522577" duration="16286000" />
+      <workItem from="1642939226688" duration="83000" />
+      <workItem from="1642940360194" duration="52000" />
+      <workItem from="1642940557043" duration="5077000" />
+      <workItem from="1643006313050" duration="510000" />
+      <workItem from="1643038678140" duration="444000" />
     </task>
     <servers />
   </component>
