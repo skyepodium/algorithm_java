@@ -1,18 +1,14 @@
-import java.util.Locale;
-
 class Solution {
-    public String capitalizeTitle(String title) {
+    public int findSpecialInteger(int[] arr) {
         // 1. init
-        String[] titleArr = title.split(" ");
-        StringBuilder res = new StringBuilder();
+        int n = arr.length;
+        int q = n / 4;
 
         // 2. loop
-        for(int i=0; i<titleArr.length; i++) {
-            String t = titleArr[i];
-            res.append(t.length() > 2 ? t.substring(0, 1).toUpperCase() + t.substring(1).toLowerCase() : t.toLowerCase());
-            if(i != titleArr.length - 1) res.append(" ");
+        for(int i=0; i<n - q; i++) {
+            if(arr[i] == arr[i+q]) return arr[i];
         }
 
-        return res.toString();
+        return -1;
     }
 }
