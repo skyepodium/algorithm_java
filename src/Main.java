@@ -1,40 +1,23 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicInteger;
 
 class Solution {
-    public List<String> commonChars(String[] words) {
+    public int maximumWealth(int[][] accounts) {
         // 1. init
-        int n = words.length;
-        String origin = words[0];
-        List<String> res = new ArrayList<>();
+        AtomicInteger result = new AtomicInteger();
 
-        // 2. loop
-        for(int i=0; i<origin.length(); i++) {
-            char c = origin.charAt(i);
-            int cnt = 0;
-            for(int j=0; j<n; j++) {
-                String cur = words[j];
-                for(int k=0; k<cur.length(); k++) {
-                    if(cur.charAt(k) == c) {
-                        cnt++;
-                        break;
-                    }
-                }
-            }
-            if(cnt == n) {
-                res.add(c + "");
-                for(int q=0; q<n; q++) {
-                    words[q] = words[q].replaceFirst(c+"", "");
-                }
-            }
-        }
+        Arrays.stream(accounts).forEach(x -> {
+            result.set(Math.max(result.get(), getSum(x)));
+        });
 
-        return res;
+        return result.get();
     }
-}
 
-class Main {
-    public static void main(String[] args) {
-
+    public int getSum(int[] a) {
+        int res = 0;
+        for(int i=0; i<a.length; i++) {
+            res += a[i];
+        }
+        return res;
     }
 }
