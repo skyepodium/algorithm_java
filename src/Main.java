@@ -1,46 +1,28 @@
 import java.util.*;
 
 class Solution {
-    public List<String> topKFrequent(String[] words, int k) {
+    public int[] maxSlidingWindow(int[] nums, int k) {
         // 1. init
-        List<String> res = new ArrayList<>();
-        Map<String, Integer> m = new HashMap<>();
-        List<Info> wList = new ArrayList<>();
+        int n = nums.length;
+        Deque<Integer> dq = new ArrayDeque<>();
+        int[] res = new int[n - k + 1];
         int idx = 0;
 
-        // 2. counter
-        Arrays.stream(words).forEach(x -> {
-            if(m.containsKey(x)) m.put(x, m.get(x) + 1);
-            else m.put(x, 1);
-        });
+        // 2. loop
+        for(int i=0; i<n; i++) {
+            // 1) over size
+            if(!dq.isEmpty() && dq.peekFirst() <= i - k) dq.pollFirst();
 
-        // 3. map to list
-        m.keySet().forEach(x -> {
-            wList.add(new Info(x, m.get(x)));
-        });
+            // 2) make front biggest
+            while(!dq.isEmpty() && nums[dq.peekLast()] < nums[i]) dq.pollLast();
 
-        // 4. sort
-        wList.sort((a, b) -> {
-            if(a.cnt == b.cnt) return a.w.compareTo(b.w);
-            else return b.cnt - a.cnt;
-        });
+            // 3) insert dq
+            dq.add(i);
 
-        // 5. loop
-        for(Info info: wList) {
-            if(idx >= k) break;
-            res.add(info.w);
-            idx++;
+            // 4) update
+            if(i >= k - 1) res[idx++] = nums[dq.peekFirst()];
         }
 
         return res;
-    }
-}
-
-class Info {
-    String w;
-    int cnt;
-    public Info(String w, int cnt) {
-        this.w = w;
-        this.cnt = cnt;
     }
 }
