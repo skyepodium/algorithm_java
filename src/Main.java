@@ -1,28 +1,28 @@
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 class Solution {
-    public int[] maxSlidingWindow(int[] nums, int k) {
+    public int fourSumCount(int[] nums1, int[] nums2, int[] nums3, int[] nums4) {
         // 1. init
-        int n = nums.length;
-        Deque<Integer> dq = new ArrayDeque<>();
-        int[] res = new int[n - k + 1];
-        int idx = 0;
+        AtomicInteger res = new AtomicInteger();
+        Map<Integer, Integer> m = new HashMap<>();
 
         // 2. loop
-        for(int i=0; i<n; i++) {
-            // 1) over size
-            if(!dq.isEmpty() && dq.peekFirst() <= i - k) dq.pollFirst();
+        Arrays.stream(nums1).forEach(x -> Arrays.stream(nums2).forEach(y -> {
+            if(m.containsKey(x+y)) m.put(x+y, m.get(x+y)+1);
+            else m.put(x+y, 1);
+        }));
 
-            // 2) make front biggest
-            while(!dq.isEmpty() && nums[dq.peekLast()] < nums[i]) dq.pollLast();
+        // 2. loop
+        Arrays.stream(nums3).forEach(x -> Arrays.stream(nums4).forEach(y -> {
+            if(m.containsKey(0 - (x+y))) {
+                res.addAndGet(m.get(0 - (x + y)));
+            }
+        }));
 
-            // 3) insert dq
-            dq.add(i);
 
-            // 4) update
-            if(i >= k - 1) res[idx++] = nums[dq.peekFirst()];
-        }
-
-        return res;
+        return res.get();
     }
 }
