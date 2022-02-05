@@ -1,28 +1,87 @@
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
+class MyHashMap {
 
-class Solution {
-    public int fourSumCount(int[] nums1, int[] nums2, int[] nums3, int[] nums4) {
-        // 1. init
-        AtomicInteger res = new AtomicInteger();
-        Map<Integer, Integer> m = new HashMap<>();
+    private int size;
+    private Node[] table;
 
-        // 2. loop
-        Arrays.stream(nums1).forEach(x -> Arrays.stream(nums2).forEach(y -> {
-            if(m.containsKey(x+y)) m.put(x+y, m.get(x+y)+1);
-            else m.put(x+y, 1);
-        }));
+    public MyHashMap() {
+        this.size = 1000;
+        table = new Node[1000];
+    }
 
-        // 2. loop
-        Arrays.stream(nums3).forEach(x -> Arrays.stream(nums4).forEach(y -> {
-            if(m.containsKey(0 - (x+y))) {
-                res.addAndGet(m.get(0 - (x + y)));
+    public int getIdx(int key) {
+        return key % this.size;
+    }
+
+    public void put(int key, int value) {
+        int idx = getIdx(key);
+
+        Node node = this.table[idx];
+
+        if (node == null) {
+            this.table[idx] = new Node(key, value);
+        } else {
+            Node prev = null;
+
+            while(node != null) {
+                if(node.key == key) {
+                    node.value = value;
+                    break;
+                }
+
+                prev = node;
+                node = node.next;
             }
-        }));
 
+            if(node == null) prev.next = new Node(key, value);
+        }
+    }
 
-        return res.get();
+    public int get(int key) {
+        int idx = getIdx(key);
+        int res = -1;
+        Node node = this.table[idx];
+
+        while(node != null) {
+            if(node.key == key) {
+                res = node.value;
+                break;
+            }
+
+            node = node.next;
+        }
+
+        return res;
+    }
+
+    public void remove(int key) {
+        int idx = getIdx(key);
+        Node node = this.table[idx];
+        Node prev = null;
+
+        while(node != null) {
+            if(node.key == key) {
+                if(prev == null) {
+                    this.table[idx] = node.next;
+                } else if(node.next == null) {
+                    prev.next = null;
+                } else {
+                    prev.next = node.next;
+                }
+            }
+
+            prev = node;
+            node = node.next;
+        }
+    }
+}
+
+class Node {
+    int key;
+    int value;
+    Node next;
+
+    public Node(int key, int value) {
+        this.key = key;
+        this.value = value;
     }
 }
