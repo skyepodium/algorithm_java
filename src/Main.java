@@ -1,87 +1,27 @@
-class MyHashMap {
+import java.util.HashMap;
+import java.util.Map;
 
-    private int size;
-    private Node[] table;
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        // 1. init
+        Map<Character, Integer> m = new HashMap<>();
+        int n = s.length();
+        int res = 0;
+        int l = 0;
 
-    public MyHashMap() {
-        this.size = 1000;
-        table = new Node[1000];
-    }
+        // 2. loop
+        for(int r=0; r<n; r++) {
+            char c = s.charAt(r);
 
-    public int getIdx(int key) {
-        return key % this.size;
-    }
-
-    public void put(int key, int value) {
-        int idx = getIdx(key);
-
-        Node node = this.table[idx];
-
-        if (node == null) {
-            this.table[idx] = new Node(key, value);
-        } else {
-            Node prev = null;
-
-            while(node != null) {
-                if(node.key == key) {
-                    node.value = value;
-                    break;
-                }
-
-                prev = node;
-                node = node.next;
+            if(m.containsKey(c)) {
+                l = Math.max(l, m.get(c) + 1);
             }
 
-            if(node == null) prev.next = new Node(key, value);
-        }
-    }
+            m.put(c, r);
 
-    public int get(int key) {
-        int idx = getIdx(key);
-        int res = -1;
-        Node node = this.table[idx];
-
-        while(node != null) {
-            if(node.key == key) {
-                res = node.value;
-                break;
-            }
-
-            node = node.next;
+            res = Math.max(res, r - l + 1);
         }
 
         return res;
-    }
-
-    public void remove(int key) {
-        int idx = getIdx(key);
-        Node node = this.table[idx];
-        Node prev = null;
-
-        while(node != null) {
-            if(node.key == key) {
-                if(prev == null) {
-                    this.table[idx] = node.next;
-                } else if(node.next == null) {
-                    prev.next = null;
-                } else {
-                    prev.next = node.next;
-                }
-            }
-
-            prev = node;
-            node = node.next;
-        }
-    }
-}
-
-class Node {
-    int key;
-    int value;
-    Node next;
-
-    public Node(int key, int value) {
-        this.key = key;
-        this.value = value;
     }
 }
