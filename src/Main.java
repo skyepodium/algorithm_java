@@ -2,24 +2,21 @@ import java.util.HashMap;
 import java.util.Map;
 
 class Solution {
-    public int lengthOfLongestSubstring(String s) {
+    public int numJewelsInStones(String jewels, String stones) {
         // 1. init
-        Map<Character, Integer> m = new HashMap<>();
-        int n = s.length();
         int res = 0;
-        int l = 0;
+        Map<Character, Integer> m = new HashMap<>();
 
-        // 2. loop
-        for(int r=0; r<n; r++) {
-            char c = s.charAt(r);
+        // 2. make counter
+        for(int i=0; i<stones.length(); i++) {
+            Character c = stones.charAt(i);
+            if(m.containsKey(c)) m.put(c, m.get(c) + 1);
+            else m.put(c, 1);
+        }
 
-            if(m.containsKey(c)) {
-                l = Math.max(l, m.get(c) + 1);
-            }
-
-            m.put(c, r);
-
-            res = Math.max(res, r - l + 1);
+        for(int i=0; i<jewels.length(); i++) {
+            Character j = jewels.charAt(i);
+            if(m.containsKey(j)) res += m.get(j);
         }
 
         return res;
