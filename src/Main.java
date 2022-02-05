@@ -7,49 +7,39 @@ class Solution {
     public ListNode mergeKLists(ListNode[] lists) {
         // 1. init
         ListNode head = null, node = null;
-        List<List<Integer>> l = new ArrayList<>();
-        PriorityQueue<Info> pq = new PriorityQueue<>(new Comparator<Info>() {
-            @Override
-            public int compare(Info o1, Info o2) {
-                return o1.val - o2.val;
-            }
-        });
+        List<Integer> l = new ArrayList<>();
 
-        // 2. make list
-        for(int i=0; i<lists.length; i++) {
-            ListNode cur = lists[i];
-            List<Integer> c = new ArrayList<>();
-            while(cur != null) {
-                c.add(cur.val);
-                cur = cur.next;
+        // 2. loop
+        for(ListNode c: lists) {
+            while(c != null) {
+                l.add(c.val);
+                c = c.next;
             }
-
-            l.add(c);
-            if(c.size() > 0) pq.add(new Info(c.get(0), 0, i));
         }
 
-        // 3. search pq
-        while(!pq.isEmpty()) {
-            Info c = pq.poll();
-            int val = c.val;
-            int innerIdx = c.innerIdx;
-            int listIdx = c.listIdx;
+        // 3. sort
+        l.sort(Comparator.comparingInt(a -> a));
 
-            if(innerIdx <= l.get(listIdx).size()-1) {
-                pq.add(new Info(l.get(listIdx).get(innerIdx + 1), innerIdx + 1, listIdx));
-            }
-
+        // 4. loop
+        for(Integer n: l) {
             if(node == null) {
-                head = node = new ListNode(val, null);
-                node = node.next;
-            }else{
-                node.next = new ListNode(val, null);
+                head = node = new ListNode(n, null);
+            }
+            else {
+                node.next = new ListNode(n, null);
                 node = node.next;
             }
         }
 
         return head;
     }
+}
+
+class ListNode {
+    int val;
+    ListNode next;
+
+    ListNode(int val, ListNode next) { this.val = val; this.next = next; }
 }
 
 class Info {
