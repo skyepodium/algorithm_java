@@ -1,55 +1,120 @@
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.PriorityQueue;
 
-class Solution {
-    public ListNode mergeKLists(ListNode[] lists) {
-        // 1. init
-        ListNode head = null, node = null;
-        List<Integer> l = new ArrayList<>();
+class MyHashMap {
 
-        // 2. loop
-        for(ListNode c: lists) {
-            while(c != null) {
-                l.add(c.val);
-                c = c.next;
-            }
-        }
+    private int size;
+    private Node[] table;
+    private final float loadFactor = (float) 0.6;
+    private int count;
 
-        // 3. sort
-        l.sort(Comparator.comparingInt(a -> a));
+    public MyHashMap() {
+        this.size = 1000;
+        table = new Node[this.size];
+        this.count = 0;
+    }
 
-        // 4. loop
-        for(Integer n: l) {
-            if(node == null) {
-                head = node = new ListNode(n, null);
-            }
-            else {
-                node.next = new ListNode(n, null);
+    public void resize() {
+        List<Node> prevElements = this.getAllElements();
+        this.size *= 2;
+        this.table = new Node[this.size];
+        this.count = 0;
+        prevElements.forEach(x -> this.put(x.key, x.value));
+    }
+
+    public List<Node> getAllElements() {
+        List<Node> res = new ArrayList<>();
+        for(Node node: this.table) {
+            while(node != null) {
+                res.add(new Node(node.key, node.value));
                 node = node.next;
             }
         }
+        return res;
+    }
 
-        return head;
+    public int hashCode(int key) {
+        return key % this.size;
+    }
+
+    public void put(int key, int value) {
+        int h = hashCode(key);
+
+        Node node = this.table[h];
+
+        if (node == null) {
+            this.count += 1;
+            this.table[h] = new Node(key, value);
+        } else {
+            Node prev = null;
+
+            while(node != null) {
+                if(node.key == key) {
+                    node.value = value;
+                    break;
+                }
+
+                prev = node;
+                node = node.next;
+            }
+
+            if(node == null) {
+                this.count += 1;
+                prev.next = new Node(key, value);
+            }
+        }
+        if((float)(this.count / this.size) >= this.loadFactor) {
+            this.resize();
+        }
+    }
+
+    public int get(int key) {
+        int h = hashCode(key);
+        int res = -1;
+        Node node = this.table[h];
+
+        while(node != null) {
+            if(node.key == key) {
+                res = node.value;
+                break;
+            }
+
+            node = node.next;
+        }
+
+        return res;
+    }
+
+    public void remove(int key) {
+        int h = hashCode(key);
+        Node node = this.table[h];
+        Node prev = null;
+
+        while(node != null) {
+            if(node.key == key) {
+                this.count -= 1;
+                if(prev == null) {
+                    this.table[h] = node.next;
+                } else if(node.next == null) {
+                    prev.next = null;
+                } else {
+                    prev.next = node.next;
+                }
+            }
+
+            prev = node;
+            node = node.next;
+        }
     }
 }
 
-class ListNode {
-    int val;
-    ListNode next;
+class Node {
+    int key;
+    int value;
+    Node next;
 
-    ListNode(int val, ListNode next) { this.val = val; this.next = next; }
-}
-
-class Info {
-    int val;
-    int innerIdx;
-    int listIdx;
-
-    public Info(int val, int innerIdx, int listIdx) {
-        this.val = val;
-        this.innerIdx = innerIdx;
-        this.listIdx = listIdx;
+    public Node(int key, int value) {
+        this.key = key;
+        this.value = value;
     }
 }
