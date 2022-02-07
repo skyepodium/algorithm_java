@@ -1,107 +1,22 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.HashMap;
+import java.util.Map;
 
-class MyHashMap {
+class Solution {
+    public int solution(String[][] clothes) {
+        // 1. 초기화
+        int res = 0;
+        Map<String, Integer> m = new HashMap<>();
 
-    private int size;
-    private int deletedCount;
-    private int count;
-    private Node[] table;
-    private final float loadFactor = (float) 0.6;
-    private final int minFator = 3;
-    private Node deletedNode = new Node(-1, -1, -1);
-
-    public MyHashMap() {
-        this.size = 10;
-        table = new Node[this.size];
-        this.count = 0;
-        this.deletedCount = 0;
-    }
-
-    public int hashCode(int key) {
-        return key % this.size;
-    }
-
-    public int getEntry(int key) {
-        int hashKey = this.hashCode(key);
-        int rootIdx = hashKey;
-
-        for(int i=0; i<this.size; i++) {
-            int newIdx = (rootIdx + i) % this.size;
-            Node node = this.table[newIdx];
-            if(node == null || (!node.equals(this.deletedNode) && node.hashKey == hashKey && node.key == key)) {
-                return newIdx;
-            }
+        // 2. 카운트
+        for(String[] c: clothes) {
+            m.put(c[1], m.getOrDefault(c[1], 0) + 1);
         }
 
-        return 0;
-    }
-
-    public void resize() {
-        Node[] oldTable = this.table;
-        this.size *= this.minFator;
-        this.table = new Node[this.size];
-        this.count = 0;
-
-        for(Node node: oldTable) {
-            if(node != null && !node.equals(this.deletedNode)) {
-                this.put(node.key, node.value);
-            }
+        // 3. 인수분해
+        for(Integer x: m.values()) {
+            res *= x + 1;
         }
-    }
 
-    public void put(int key, int value) {
-        int newIdx = this.getEntry(key);
-        Node node = this.table[newIdx];
-
-        if(node == null) this.count += 1;
-        this.table[newIdx] = new Node(key, this.hashCode(key), value);
-
-        if((float)((this.deletedCount + this.count) / this.size) >= this.loadFactor) {
-            this.resize();
-        }
-    }
-
-    public int get(int key) {
-        int newIdx = this.getEntry(key);
-        Node node = this.table[newIdx];
-        if(node == null) return -1;
-        else return node.value;
-    }
-
-    public void remove(int key) {
-        int newIdx = this.getEntry(key);
-        Node node = this.table[newIdx];
-        if(node != null && !node.equals(this.deletedNode)) {
-            this.table[newIdx] = new Node(-1, -1, -1);
-            this.count -= 1;
-            this.deletedCount += 1;
-        }
-    }
-}
-
-class Node {
-    int key;
-    int hashKey;
-    int value;
-
-    public Node(int key, int hashKey, int value) {
-        this.key = key;
-        this.hashKey = hashKey;
-        this.value = value;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Node)) return false;
-        Node node = (Node) o;
-        return key == node.key && hashKey == node.hashKey && value == node.value;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(key, hashKey, value);
+        return res - 1;
     }
 }
