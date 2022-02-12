@@ -1,14 +1,14 @@
-import java.util.HashSet;
-import java.util.Set;
-
 class Solution {
-    public boolean checkIfExist(int[] arr) {
-        Set<Integer> s = new HashSet<>();
-        for(int a: arr) {
-            if(s.contains(a * 2) || ((a % 2) == 0 && s.contains(a / 2))) return true;
+    public ListNode middleNode(ListNode head) {
+        // 1. init
+        ListNode fast = head, slow = head;
 
-            s.add(a);
+        // 2. runner
+        while(fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
         }
-        return false;
+
+        return slow;
     }
 }
