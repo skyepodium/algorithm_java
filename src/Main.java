@@ -1,19 +1,23 @@
-class Solution {
-    public ListNode deleteMiddle(ListNode head) {
-        // 1. init
-        ListNode node = new ListNode(-1);
-        ListNode fast = node, slow = node;
-        node.next = head;
+import java.util.HashMap;
+import java.util.Map;
 
-        // 2. runner
-        while(fast.next != null && fast.next.next != null) {
-            slow = slow.next;
-            fast = fast.next.next;
+class Solution {
+    public int numEquivDominoPairs(int[][] dominoes) {
+        // 1. init
+        Map<Integer, Integer> m = new HashMap<>();
+        int res = 0;
+
+        // 2. counter
+        for(int[] d: dominoes) {
+            int num = Math.max(d[0], d[1]) * 10 + Math.min(d[0], d[1]);
+            m.put(num, m.getOrDefault(num, 0) + 1);
         }
 
-        // 3. delete
-        slow.next = slow.next.next;
+        // 3. for loop
+        for(Integer c: m.values()) {
+            res += c * (c - 1) / 2;
+        }
 
-        return node.next;
+        return res;
     }
 }
