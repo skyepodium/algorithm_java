@@ -1,23 +1,20 @@
-import java.util.HashMap;
-import java.util.Map;
-
 class Solution {
-    public int numEquivDominoPairs(int[][] dominoes) {
-        // 1. init
-        Map<Integer, Integer> m = new HashMap<>();
-        int res = 0;
+    public int[] getNoZeroIntegers(int n) {
+        // 1. loop
+        for(int i=1; i<=n/2 + 1; i++) {
+            if(!nonZero(i) || !nonZero(n-i)) continue;
 
-        // 2. counter
-        for(int[] d: dominoes) {
-            int num = Math.max(d[0], d[1]) * 10 + Math.min(d[0], d[1]);
-            m.put(num, m.getOrDefault(num, 0) + 1);
+            return new int[]{i, n-i};
         }
+        return new int[]{-1, -1};
+    }
 
-        // 3. for loop
-        for(Integer c: m.values()) {
-            res += c * (c - 1) / 2;
+    // 2. nonZero
+    public boolean nonZero(int num) {
+        while(num > 0) {
+            if(num % 10 == 0) return false;
+            num /= 10;
         }
-
-        return res;
+        return true;
     }
 }
