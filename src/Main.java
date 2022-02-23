@@ -1,31 +1,18 @@
-import java.util.HashMap;
-import java.util.Map;
-
 class Solution {
-    public String reformatDate(String date) {
+    public boolean threeConsecutiveOdds(int[] arr) {
+        // 0. exception
+        if(arr.length < 3) return false;
+
         // 1. init
-        Map<String, String> m = new HashMap<>();
-        m.put("Jan", "01");
-        m.put("Feb", "02");
-        m.put("Mar", "03");
-        m.put("Apr", "04");
-        m.put("May", "05");
-        m.put("Jun", "06");
-        m.put("Jul", "07");
-        m.put("Aug", "08");
-        m.put("Sep", "09");
-        m.put("Oct", "10");
-        m.put("Nov", "11");
-        m.put("Dec", "12");
+        int a = 0;
+        int b = a+1;
+        int c = b+1;
 
-        // 2. split
-        String[] d = date.split(" ");
-        String day = d[0].replaceAll("[a-zA-z]", "");
+        // 2. loop
+        for(int i=0; i<=arr.length - 3; i++) {
+            if((arr[i+a] & 1) == 1 && (arr[i+b] & 1) == 1 && (arr[i+c] & 1) == 1) return true;
+        }
 
-        return d[2] + "-" + m.get(d[1]) + "-" + zFill(day);
-    }
-
-    public String zFill(String strNum){
-        return strNum.length() < 2 ? "0" + strNum : strNum;
+        return false;
     }
 }
