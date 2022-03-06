@@ -1,42 +1,17 @@
-import java.util.ArrayList;
-import java.util.Stack;
-
 class Solution {
-    public String reverseParentheses(String s) {
+    public int[] replaceElements(int[] arr) {
         // 1. init
-        Stack<String> res = new Stack<>();
-        res.add("");
+        int n = arr.length;
+        int[] res = new int[n];
+        res[n-1] = -1;
+        int curMax = arr[n-1];
 
         // 2. loop
-        for(int i=0; i<s.length(); i++) {
-            char c = s.charAt(i);
-
-            if(c == '(') {
-                res.add("");
-            }
-            else if(c == ')') {
-                    String t = res.pop();
-                    String y = res.pop();
-                    res.add(y + new StringBuilder(t).reverse());
-            }
-            else {
-                String t = res.pop();
-                res.add(t + c);
-            }
-            System.out.println("res " + res);
+        for(int i=n-2; i>=0; i--) {
+            if(arr[i+1] > curMax) curMax = arr[i+1];
+            res[i] = curMax;
         }
 
-        return String.join("", res);
-    }
-}
-
-class Main {
-    public static void main(String[] args) {
-        Solution sl = new Solution();
-
-        String res = sl.reverseParentheses("(abcd)");
-
-        System.out.println("res " + res);
-
+        return res;
     }
 }
