@@ -1,31 +1,21 @@
-import java.util.HashMap;
-import java.util.Map;
-
 class Solution {
-    public char findTheDifference(String s, String t) {
+    public void duplicateZeros(int[] arr) {
         // 1. init
-        char[] a = new char[26];
-        char res = 'a';
+        int[] origin = arr.clone();
+        int n = arr.length;
+        int arrIdx = 0;
 
-        for(int i=0; i<t.length(); i++) {
-            char c = t.charAt(i);
-            int idx = (int)c - (int)'a';
-            a[idx]++;
-        }
+        // 2. loop
+        for(int cur: origin) {
+            if(arrIdx >= n) break;
 
-        for(int i=0; i<s.length(); i++) {
-            char c = s.charAt(i);
-            int idx = (int)c - (int)'a';
-            a[idx]--;
-        }
+            arr[arrIdx] = cur;
+            arrIdx += 1;
 
-        for(int i=0; i<26; i++) {
-            if(a[i] > 0) {
-                res = (char)(i + (int)'a');
-                break;
+            if(cur == 0 && arrIdx < n) {
+                arr[arrIdx] = cur;
+                arrIdx += 1;
             }
         }
-
-        return res;
-    }
+     }
 }
