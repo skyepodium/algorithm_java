@@ -1,61 +1,29 @@
-class Main {
-    public static void main(String[] args) {
-        Post post = Post.builder()
-                        .author("skyepodium")
-                        .title("design-pattern")
-                        .content("builder")
-                        .build();
+class Solution {
 
-        System.out.println(post);
-    }
-}
+    public static int res = 0;
+    public static int n = 0;
+    public static int[] b;
+    public static int t = 0;
+    public int findTargetSumWays(int[] nums, int target) {
+        // 1. init
+        n = nums.length;
+        b = nums;
+        t = target;
+        res = 0;
 
-class Post {
-    private String author;
-    private String title;
-    private String content;
+        // 2. dfs
+        go(0, 0);
 
-    private Post(Builder builder) {
-        this.author = builder.author;
-        this.title = builder.title;
-        this.content = builder.content;
+        return res;
     }
 
-    public static Builder builder() {
-        return new Builder();
-    }
-
-    public static class Builder {
-        private String author;
-        private String title;
-        private String content;
-
-        public Builder author(String author) {
-            this.author = author;
-            return this;
+    public static void go(int idx, int val) {
+        if(idx >= n) {
+            if(val == t) res++;
+            return;
         }
 
-        public Builder title(String title) {
-            this.title = title;
-            return this;
-        }
-
-        public Builder content(String content) {
-            this.content = content;
-            return this;
-        }
-
-        public Post build() {
-            return new Post(this);
-        }
-    }
-
-    @Override
-    public String toString() {
-        return "Post{" +
-                "author='" + author + '\'' +
-                ", title='" + title + '\'' +
-                ", content='" + content + '\'' +
-                '}';
+        go(idx + 1, val + b[idx]);
+        go(idx + 1, val - b[idx]);
     }
 }
