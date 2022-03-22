@@ -4,7 +4,7 @@
     <list default="true" id="fd7e4aed-a6ff-48ca-baa5-7f9bb7afc3f9" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/algorithm_java/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/algorithm_java/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/algorithm_java/Solution.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/algorithm_java/StringPathChanger.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -61,7 +61,7 @@
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
-  <component name="RunManager" selected="Application.StringPathChanger">
+  <component name="RunManager" selected="Application.Main">
     <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
@@ -89,8 +89,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.StringPathChanger" />
         <item itemvalue="Application.Main" />
+        <item itemvalue="Application.StringPathChanger" />
       </list>
     </recent_temporary>
   </component>
@@ -211,7 +211,7 @@
       <workItem from="1647079875340" duration="5185000" />
       <workItem from="1647653659194" duration="620000" />
       <workItem from="1647673047856" duration="4802000" />
-      <workItem from="1647745082134" duration="8114000" />
+      <workItem from="1647745082134" duration="12394000" />
     </task>
     <servers />
   </component>
