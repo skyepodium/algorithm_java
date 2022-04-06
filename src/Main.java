@@ -1,27 +1,27 @@
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 class Main {
     public static void main(String[] args) {
 
-        List<Integer> a = new LinkedList<>();
+        Solution sl = new Solution();
+        int[] nums = {1, 1, 1, 1};
+        int res = sl.sumOfUnique(nums);
 
-        a.remove(3);
+        System.out.println(res);
     }
 }
 
 class Solution {
-    public String freqAlphabets(String s) {
+    public int sumOfUnique(int[] nums) {
+        Map<Integer, Integer> m = new HashMap<>();
 
-        for(int i=26; i>=0; i--) {
-            String pattern = i >= 10 ? i + "#" : i + "";
-            s = s.replaceAll(pattern, getAlphabet(i));
-        }
+        Arrays.stream(nums).forEach(x -> m.put(x, m.getOrDefault(x, 0) + 1));
 
-        return s;
-    }
-
-    public String getAlphabet(int n) {
-        return (char)((int)'a' + n - 1) + "";
+        return m.entrySet().stream().filter(x -> x.getValue() == 1)
+                .map(Map.Entry::getKey)
+                .reduce(Integer::sum)
+                .orElse(0);
     }
 }
