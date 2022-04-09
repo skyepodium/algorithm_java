@@ -1,25 +1,19 @@
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.PriorityQueue;
+import java.util.*;
 
-class KthLargest {
-    private PriorityQueue<Integer> pq;
-    private int k;
+class Solution {
+    public String solution(String[] participant, String[] completion) {
+        // 1. init
+        Map<String, Integer> m = new HashMap<>();
 
-    public KthLargest(int k, int[] nums) {
-        this.k = k;
+        Arrays.stream(completion).forEach(x -> m.put(x, m.getOrDefault(x, 0) + 1));
 
-        this.pq = new PriorityQueue<>(Comparator.comparingInt(a -> a));
-        Arrays.stream(nums).forEach(x -> pq.add(x));
+        // 2. loop
+        for(String p: participant) {
+            if(!m.containsKey(p) || m.get(p) == 0) return p;
 
-        while(pq.size() > k) pq.poll();
-    }
+            m.put(p, m.get(p) - 1);
+        }
 
-    public int add(int val) {
-        this.pq.add(val);
-
-        while(pq.size() > k) pq.poll();
-
-        return pq.peek();
+        return "";
     }
 }
