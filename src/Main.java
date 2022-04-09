@@ -1,19 +1,19 @@
-import java.util.*;
+import java.util.Arrays;
 
 class Solution {
-    public String solution(String[] participant, String[] completion) {
+    public int solution(int n) {
         // 1. init
-        Map<String, Integer> m = new HashMap<>();
+        int[] d = new int[n+1];
+        for(int i=0; i<=n; i++) d[i] = 1;
 
-        Arrays.stream(completion).forEach(x -> m.put(x, m.getOrDefault(x, 0) + 1));
-
-        // 2. loop
-        for(String p: participant) {
-            if(!m.containsKey(p) || m.get(p) == 0) return p;
-
-            m.put(p, m.get(p) - 1);
+        // 2. eratos
+        for(int i=2; i*i<=n; i++) {
+            for(int j=i*2; j<=n; j+=i) {
+                d[j] = 0;
+            }
         }
+        d[0] = d[1] = 0;
 
-        return "";
+        return Arrays.stream(d).sum();
     }
 }
