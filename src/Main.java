@@ -1,7 +1,14 @@
-class Solution {
-    public long solution(long n) {
-        long num = (long) Math.sqrt(n);
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
-        return num * num == n ? (long) Math.pow(num + 1, 2) : -1;
+class Solution {
+    public int findFinalValue(int[] nums, int original) {
+        Set<Integer> s = new HashSet<>(Arrays.stream(nums).boxed().collect(Collectors.toList()));
+
+        while(s.contains(original)) original *= 2;
+
+        return original;
     }
 }
