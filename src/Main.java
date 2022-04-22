@@ -1,32 +1,62 @@
+import java.util.*;
+import java.util.stream.Collectors;
+
 class Solution {
-    public String solution(int n, int t, int m, int p) {
-        String r = "";
-        for(int i=0; i<t*m; i++) {
-            r += intToBaseStr(i, n);
+    Map<String, List<String>> d;
+    Map<String, Integer> check;
+    public int solution(String begin, String target, String[] words) {
+        // 1. init
+        d = new HashMap<>();
+        check = new HashMap<>();
+        List<String> w = Arrays.stream(words).collect(Collectors.toList());
+        w.add(begin);
+
+        // 2. loop
+        for(int i=0; i<w.size(); i++) {
+            for(int j=0; j<w.size(); j++) {
+                if(i == j) continue;
+                String a = w.get(i);
+                String b = w.get(j);
+                if(getDiff(a, b) == 1) {
+                    List<String> q = d.getOrDefault(a, new ArrayList<>());
+                    q.add(b);
+                    d.put(a, q);
+
+                    List<String> e = d.getOrDefault(b, new ArrayList<>());
+                    e.add(a);
+                    d.put(b, e);
+                }
+            }
         }
 
-        String res = "";
-        for(int i=p; i<=t*m; i+=m) {
-            res += r.charAt(i-1);
-        }
+        // 3. bfs
+        bfs(begin);
 
+        return check.getOrDefault(target, 0);
+    }
+
+    public int getDiff(String a, String b) {
+        int res = 0;
+        int n = Math.min(a.length(), b.length());
+        for(int i=0; i<n; i++) {
+            if(a.charAt(i) != b.charAt(i)) res++;
+        }
         return res;
     }
 
-    public String intToBaseStr(int num, int base) {
-        String res = "";
+    public void bfs(String startNode) {
+        Queue<String> q = new LinkedList<>();
+        q.add(startNode);
+        check.put(startNode, 0);
 
-        while(num > 0) {
-            int remain = num % base;
-
-            if(remain >= 10) res += (char)((int)'A' + remain % 10);
-            else res += Integer.toString(remain);
-
-            num /= base;
+        while(!q.isEmpty()) {
+            String node = q.poll();
+            for(String nNode: d.getOrDefault(node, new ArrayList<>())) {
+                if(!check.containsKey(nNode)) {
+                    check.put(nNode, check.get(node) + 1);
+                    q.add(nNode);
+                }
+            }
         }
-
-        if(res.equals("")) res = "0";
-
-        return new StringBuilder(res).reverse().toString();
     }
 }
