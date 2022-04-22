@@ -1,29 +1,26 @@
-import java.util.PriorityQueue;
-import java.util.stream.IntStream;
-
 class Solution {
-    public int dominantIndex(int[] nums) {
-        // 1. exception
-        if(nums.length < 2) return 0;
+    public String digitSum(String s, int k) {
+        while(s.length() > k) {
+            String base = "";
 
-        // 2. init
-        PriorityQueue<Info> pq = new PriorityQueue<>((a, b) -> b.val - a.val);
+            for(int i=0; i<s.length(); i+=k) {
+                base += sumStr(s.substring(i, Math.min(i+k, s.length())));
+            }
 
-        IntStream.range(0, nums.length).forEach(x -> pq.add(new Info(nums[x], x)));
+            s = base;
+        }
 
-        Info first = pq.poll();
-        Info second = pq.poll();
-
-        return first.val >= 2 * second.val ? first.idx : -1;
+        return s;
     }
-}
 
-class Info {
-    public int val;
-    public int idx;
+    public String sumStr(String s) {
+        int res = 0;
 
-    public Info(int val, int idx) {
-        this.val = val;
-        this.idx = idx;
+        for(int i=0; i<s.length(); i++) {
+            char c = s.charAt(i);
+            res += (int)c - (int)'0';
+        }
+
+        return Integer.toString(res);
     }
 }
