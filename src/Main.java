@@ -1,26 +1,32 @@
 class Solution {
-    public String digitSum(String s, int k) {
-        while(s.length() > k) {
-            String base = "";
-
-            for(int i=0; i<s.length(); i+=k) {
-                base += sumStr(s.substring(i, Math.min(i+k, s.length())));
-            }
-
-            s = base;
+    public String solution(int n, int t, int m, int p) {
+        String r = "";
+        for(int i=0; i<t*m; i++) {
+            r += intToBaseStr(i, n);
         }
 
-        return s;
+        String res = "";
+        for(int i=p; i<=t*m; i+=m) {
+            res += r.charAt(i-1);
+        }
+
+        return res;
     }
 
-    public String sumStr(String s) {
-        int res = 0;
+    public String intToBaseStr(int num, int base) {
+        String res = "";
 
-        for(int i=0; i<s.length(); i++) {
-            char c = s.charAt(i);
-            res += (int)c - (int)'0';
+        while(num > 0) {
+            int remain = num % base;
+
+            if(remain >= 10) res += (char)((int)'A' + remain % 10);
+            else res += Integer.toString(remain);
+
+            num /= base;
         }
 
-        return Integer.toString(res);
+        if(res.equals("")) res = "0";
+
+        return new StringBuilder(res).reverse().toString();
     }
 }
