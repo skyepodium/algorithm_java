@@ -1,63 +1,94 @@
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 class Solution {
-    public int solution(int n, int k) {
+    List<List<Integer>> lList;
+    int m;
+    public int solution(String[][] relation) {
         // 1. init
         int res = 0;
+        int n = relation.length;
+        m = relation[0].length;
+        Set<String> idxSet = new HashSet<>();
+        lList = new ArrayList<>();
 
-        String num = intToBase(n, k);
+        // 2. go
+        go(0, new Stack<>());
 
-        if(num.equals(num.replaceAll("0", "")) && isPrime(Long.parseLong(num))) res++;
+        // 3. sort
+        lList.sort(Comparator.comparingInt(List::size));
 
-        String[] regex_list = {"^([1-9]+)0", "0([1-9]+)$", "(?=0([1-9]+)0)"};
+        // 4. loop
+        for(List<Integer> l: lList) {
+            // 1) uniqueness
+            Set<String> cSet = new HashSet<>();
+            l.forEach(x -> cSet.add(Integer.toString(x)));
 
-        for(String regex: regex_list) {
-            Pattern pattern = Pattern.compile(regex);
-            Matcher matcher = pattern.matcher(num);
-            while(matcher.find()) {
-                if(isPrime(Long.parseLong(matcher.group(1)))) res++;
+            AtomicBoolean isPossible = new AtomicBoolean(true);
+
+            idxSet.stream().forEach(idx -> {
+                int cnt = 0;
+
+                for(String x: idx.split("")) {
+                    if(cSet.contains(x)) cnt++;
+                }
+
+                if(cnt == idx.length()) {
+                    isPossible.set(false);
+                }
+            });
+
+            if(!isPossible.get()) continue;
+
+            // 2)  make key
+            List<String> keyList = new ArrayList<>();
+            for(String[] c: relation) {
+                String key = "";
+                for(int x: l) {
+                    key += c[x] + "_";
+                }
+                keyList.add(key);
             }
+
+            // 3) size check
+            Set<String> s = new HashSet<>(keyList);
+            if(s.size() < n) continue;
+
+            // 4) add key
+            String nKey = "";
+            for(int i: l) {
+                nKey += Integer.toString(i);
+            }
+            idxSet.add(nKey);
+            res++;
         }
 
         return res;
     }
 
-    public String intToBase(int n, int k) {
-        StringBuilder r = new StringBuilder();
-
-        while(n > 0) {
-            r.append(n % k);
-            n /= k;
+    public void go(int idx, Stack<Integer> l) {
+        if(idx >= m) {
+            if(l.size() > 0) {
+                lList.add(new ArrayList<>(l));
+            }
+            return;
         }
 
-        return r.reverse().toString();
-    }
+        l.add(idx);
+        go(idx + 1, l);
+        l.pop();
 
-    public boolean isPrime(long val) {
-        if(val < 2) return false;
-
-        int mid = (int) Math.sqrt(val);
-
-        for(int i=2; i<=mid; i++) {
-            if(val % i == 0) return false;
-        }
-
-        return true;
+        go(idx + 1, l);
     }
 }
 
 public class Main {
     public static void main(String[] args) {
+        String[][] relation = {{"100","ryan","music","2"}};
+
         Solution sl = new Solution();
 
-       int n = 437674;
-       int k = 3;
-
-//       int n = 110011;
-//       int k = 10;
-
-       int res = sl.solution(n, k);
+        int res = sl.solution(relation);
 
         System.out.println("res " + res);
     }
