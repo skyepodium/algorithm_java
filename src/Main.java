@@ -1,24 +1,31 @@
-class Solution {
-    public int solution(int n) {
-        // 1. init
-        int res = 0;
-        int[] d = new int[n+1];
-        for(int i=1; i<=n; i++) d[i] = d[i-1] + i;
+import java.util.Arrays;
 
-        // 2. two pointer
-        int s = 0;
-        int e = 0;
-        while(s <= e && e < n + 1) {
-            int cur = d[e] - d[s];
-            if(cur <= n) {
-                if(cur == n) res++;
-                e++;
-            }
-            else {
-                s++;
-            }
+class Solution {
+    public int solution(int[] citations) {
+        // 1. int
+        int res = 0;
+        int maxVal = Arrays.stream(citations).max().getAsInt();
+        int n = citations.length;
+
+        // 2. sort
+        citations = Arrays.stream(citations).sorted().toArray();
+
+        // 3. lower bound
+        for(int i=0; i<=maxVal; i++) {
+            int idx = lowerBound(0, n, i, citations);
+            int upper = n - idx;
+            if(upper >= i) res = Math.max(res, i);
         }
 
         return res;
+    }
+
+    public int lowerBound(int s, int e, int target, int[] c) {
+        while(s < e) {
+            int mid = s + (e - s) / 2;
+            if(c[mid] < target) s = mid + 1;
+            else e = mid;
+        }
+        return e;
     }
 }
