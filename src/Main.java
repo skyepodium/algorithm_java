@@ -1,113 +1,63 @@
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 class Solution {
-    int[] dx = {0, 0, 1, 1};
-    int[] dy = {0, 1, 0, 1};
-    String[][] b;
-    boolean[][] check;
-    public int solution(int m, int n, String[] board) {
+    public int solution(int n, int k) {
         // 1. init
         int res = 0;
-        int temp = n;
-        n = m;
-        m = temp;
-        b = new String[n][m];
-        check = new boolean[n][m];
-        for(int i=0; i<n; i++) {
-            String[] t = board[i].split("");
-            for(int j=0; j<m; j++) {
-                b[i][j] = t[j];
+
+        String num = intToBase(n, k);
+
+        if(num.equals(num.replaceAll("0", "")) && isPrime(Long.parseLong(num))) res++;
+
+        String[] regex_list = {"^([1-9]+)0", "0([1-9]+)$", "(?=0([1-9]+)0)"};
+
+        for(String regex: regex_list) {
+            Pattern pattern = Pattern.compile(regex);
+            Matcher matcher = pattern.matcher(num);
+            while(matcher.find()) {
+                if(isPrime(Long.parseLong(matcher.group(1)))) res++;
             }
-        }
-
-        while(true) {
-            // 1) init
-            init(n, m);
-
-            // 2) search
-            int searchCnt = search(n, m);
-            if(searchCnt == 0) break;
-            res += searchCnt;
-
-            // 3) clear
-            clear(n, m);
-
-            // 4) move
-            move(n, m);
         }
 
         return res;
     }
 
-    public void init(int n, int m) {
-        for(int i=0; i<n; i++)
-            for(int j=0; j<m; j++)
-                check[i][j] = false;
-    }
+    public String intToBase(int n, int k) {
+        StringBuilder r = new StringBuilder();
 
-    public int search(int n, int m) {
-        int cnt = 0;
-
-        for(int i=0; i<n-1; i++) {
-            for(int j=0; j<m-1; j++) {
-                String prev = b[i][j];
-                if(prev.equals("")) continue;
-
-                boolean isSame = true;
-                for(int k=0; k<4; k++) {
-                    int nx = i + dx[k];
-                    int ny = j + dy[k];
-                    String cur = b[nx][ny];
-                    if(!prev.equals(cur)) {
-                        isSame = false;
-                        break;
-                    }
-                }
-
-                if(!isSame) continue;
-
-                for(int k=0; k<4; k++) {
-                    int nx = i + dx[k];
-                    int ny = j + dy[k];
-                    if(check[nx][ny]) continue;
-                    check[nx][ny] = true;
-                    cnt++;
-                }
-            }
+        while(n > 0) {
+            r.append(n % k);
+            n /= k;
         }
 
-        return cnt;
+        return r.reverse().toString();
     }
 
-    public void move(int n, int m) {
-        for(int j=0; j<m; j++) {
-            for(int idx=n-1; idx>=0; idx--) {
-                int i = idx;
-                if(b[i][j].equals("") || check[i][j]) continue;
+    public boolean isPrime(long val) {
+        if(val < 2) return false;
 
-                while(i < n-1 && !b[i][j].equals("") && b[i+1][j].equals("")) {
-                    b[i+1][j] = b[i][j];
-                    b[i][j] = "";
-                    i++;
-                }
-            }
+        int mid = (int) Math.sqrt(val);
+
+        for(int i=2; i<=mid; i++) {
+            if(val % i == 0) return false;
         }
-    }
 
-    public void clear(int n, int m) {
-        for(int i=0; i<n; i++)
-            for(int j=0; j<m; j++)
-                if(check[i][j]) b[i][j] = "";
+        return true;
     }
 }
 
 public class Main {
     public static void main(String[] args) {
-        int m = 4;
-        int n = 5;
-        String[] board = {"CCBDE", "AAADE", "AAABF", "CCBBF"};
-
         Solution sl = new Solution();
 
-        int res = sl.solution(m, n, board);
+       int n = 437674;
+       int k = 3;
+
+//       int n = 110011;
+//       int k = 10;
+
+       int res = sl.solution(n, k);
 
         System.out.println("res " + res);
     }
