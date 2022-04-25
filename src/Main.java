@@ -1,51 +1,93 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 class Solution {
-    List<List<Integer>> permutation = new ArrayList<>();
-    boolean[] check;
-    int n;
-    public int solution(int k, int[][] dungeons) {
+    int baseMinute;
+    int baseFee;
+    int perMinute;
+    int perFee;
+    public int[] solution(int[] fees, String[] records) {
         // 1. init
-        int res = 0;
-        n = dungeons.length;
-        check = new boolean[n];
+        baseMinute = fees[0];
+        baseFee = fees[1];
+        perMinute = fees[2];
+        perFee = fees[3];
 
-        dfs(0, new Stack<>());
+        Map<String,List<Integer>> p = new HashMap<>();
+        Map<String,Integer> remain = new HashMap<>();
+        Map<String,Integer> res = new HashMap<>();
 
-        // 3. loop
-        for(List<Integer> p: permutation) {
-            int life = k;
-            int cnt = 0;
-            for(int idx: p) {
-                int[] d = dungeons[idx];
-                int a = d[0];
-                int b = d[1];
-                if(life < a || life < b) break;
-                life -= b;
-                cnt++;
+        // 2. loop
+        for(String r: records) {
+            String[] a = r.split(" ");
+            String[] t = a[0].split(":");
+            String num = a[1];
+            int curHour = Integer.parseInt(t[0]);
+            int curMinute = Integer.parseInt(t[1]);
+
+            if(a[2].equals("IN")) {
+                List<Integer> b = new ArrayList<>();
+                b.add(curHour);
+                b.add(curMinute);
+                p.put(num, b);
             }
-            res = Math.max(res, cnt);
+            else {
+                int diff = calDiff(p.get(num).get(0), p.get(num).get(1), curHour, curMinute);
+                remain.put(num, remain.getOrDefault(num, 0) + diff);
+                p.remove(num);
+            }
         }
 
-        return res;
+        // 3. sumTime
+        p.entrySet().stream().forEach(x -> {
+            String num = x.getKey();
+            int diff = calDiff(x.getValue().get(0), x.getValue().get(1), 23, 59);
+            remain.put(num, remain.getOrDefault(num, 0) + diff);
+        });
+
+        // 4. total fee
+        remain.entrySet().stream().forEach(x -> {
+            res.put(x.getKey(), calFee(x.getValue()));
+        });
+
+        return res.entrySet().stream().sorted(Comparator.comparing(Map.Entry::getKey))
+                .map(Map.Entry::getValue)
+                .mapToInt(x -> x)
+                .toArray();
     }
 
-    public void dfs(int cnt, Stack<Integer> l) {
-        if(cnt >= n) {
-            permutation.add(new ArrayList<>(l));
-            return;
+    public int calDiff(int beforeHour, int beforeMinute, int curHour, int curMinute) {
+        int hourDiff = curHour - beforeHour;
+        int minuteDiff = curMinute - beforeMinute;
+
+        if(minuteDiff < 0) {
+            hourDiff -= 1;
+            minuteDiff += 60;
         }
 
-        for(int i=0; i<n; i++) {
-            if(!check[i]) {
-                check[i] = true;
-                l.add(i);
-                dfs(cnt + 1, l);
-                check[i] = false;
-                l.pop();
-            }
+        return hourDiff * 60 + minuteDiff;
+    }
+
+    public int calFee (int diff) {
+        int res = baseFee;
+
+        if(diff > baseMinute) {
+            int mdiff = diff - baseMinute;
+            int a = mdiff / perMinute;
+            if(mdiff % perMinute != 0) a += 1;
+            res += a * perFee;
         }
+        return res;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        int[] fees = {180, 5000, 10, 600};
+        String[] records = {"05:34 5961 IN", "06:00 0000 IN", "06:34 0000 OUT", "07:59 5961 OUT", "07:59 0148 IN", "18:59 0000 IN", "19:09 0148 OUT", "22:59 5961 IN", "23:00 5961 OUT"};
+
+        Solution sl = new Solution();
+        int[] res = sl.solution(fees, records);
+
+        Arrays.stream(res).forEach(System.out::println);
     }
 }
