@@ -47,12 +47,12 @@
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "WebServerToolWindowFactoryState": "false",
-    "settings.editor.selected.configurable": "preferences.lookFeel"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Application.Main">
     <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
@@ -232,7 +232,8 @@
       <workItem from="1650290021624" duration="2951000" />
       <workItem from="1650377261858" duration="9757000" />
       <workItem from="1650635413685" duration="202000" />
-      <workItem from="1650635638072" duration="11710000" />
+      <workItem from="1650635638072" duration="12578000" />
+      <workItem from="1650819009879" duration="1669000" />
     </task>
     <servers />
   </component>

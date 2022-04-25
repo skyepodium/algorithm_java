@@ -1,31 +1,42 @@
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 class Solution {
-    public int solution(int[] citations) {
-        // 1. int
-        int res = 0;
-        int maxVal = Arrays.stream(citations).max().getAsInt();
-        int n = citations.length;
+    public long[] solution(long[] numbers) {
+        // 1. init
+        List<Long> res = new ArrayList<>();
 
-        // 2. sort
-        citations = Arrays.stream(citations).sorted().toArray();
+        // 2. loop
+        for(long n: numbers) {
+            long val = 0;
 
-        // 3. lower bound
-        for(int i=0; i<=maxVal; i++) {
-            int idx = lowerBound(0, n, i, citations);
-            int upper = n - idx;
-            if(upper >= i) res = Math.max(res, i);
+            if(n % 2 == 0) {
+                val = n + 1;
+            }
+            else {
+                String binNum = intToBinary(n);
+                int binNumLen = binNum.length();
+
+                int idx = binNum.lastIndexOf("0");
+                if(idx == -1) {
+                    idx = binNumLen - 1;
+                }
+                else {
+                    idx = binNumLen - idx - 2;
+                }
+                val = n + (1L << idx);
+            }
+            res.add(val);
         }
-
-        return res;
+        return res.stream().mapToLong(x -> x).toArray();
     }
 
-    public int lowerBound(int s, int e, int target, int[] c) {
-        while(s < e) {
-            int mid = s + (e - s) / 2;
-            if(c[mid] < target) s = mid + 1;
-            else e = mid;
+    public String intToBinary(long n) {
+        StringBuilder sb = new StringBuilder();
+        while(n > 0) {
+            sb.append(n%2);
+            n /= 2;
         }
-        return e;
+        return sb.reverse().toString();
     }
 }
