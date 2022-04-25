@@ -1,42 +1,51 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 class Solution {
-    public long[] solution(long[] numbers) {
+    List<List<Integer>> permutation = new ArrayList<>();
+    boolean[] check;
+    int n;
+    public int solution(int k, int[][] dungeons) {
         // 1. init
-        List<Long> res = new ArrayList<>();
+        int res = 0;
+        n = dungeons.length;
+        check = new boolean[n];
 
-        // 2. loop
-        for(long n: numbers) {
-            long val = 0;
+        dfs(0, new Stack<>());
 
-            if(n % 2 == 0) {
-                val = n + 1;
+        // 3. loop
+        for(List<Integer> p: permutation) {
+            int life = k;
+            int cnt = 0;
+            for(int idx: p) {
+                int[] d = dungeons[idx];
+                int a = d[0];
+                int b = d[1];
+                if(life < a || life < b) break;
+                life -= b;
+                cnt++;
             }
-            else {
-                String binNum = intToBinary(n);
-                int binNumLen = binNum.length();
-
-                int idx = binNum.lastIndexOf("0");
-                if(idx == -1) {
-                    idx = binNumLen - 1;
-                }
-                else {
-                    idx = binNumLen - idx - 2;
-                }
-                val = n + (1L << idx);
-            }
-            res.add(val);
+            res = Math.max(res, cnt);
         }
-        return res.stream().mapToLong(x -> x).toArray();
+
+        return res;
     }
 
-    public String intToBinary(long n) {
-        StringBuilder sb = new StringBuilder();
-        while(n > 0) {
-            sb.append(n%2);
-            n /= 2;
+    public void dfs(int cnt, Stack<Integer> l) {
+        if(cnt >= n) {
+            permutation.add(new ArrayList<>(l));
+            return;
         }
-        return sb.reverse().toString();
+
+        for(int i=0; i<n; i++) {
+            if(!check[i]) {
+                check[i] = true;
+                l.add(i);
+                dfs(cnt + 1, l);
+                check[i] = false;
+                l.pop();
+            }
+        }
     }
 }
