@@ -1,34 +1,56 @@
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 class Solution {
-    public int[] solution(String[] gems) {
+    int[] d;
+    public int minCostConnectPoints(int[][] points) {
         // 1. init
-        int totalCnt = new HashSet<>(Arrays.stream(gems).collect(Collectors.toList())).size();
-        int n = gems.length;
-        Map<String, Integer> c = new HashMap<>();
-        int startIdx = 0;
-        int endIdx = n-1;
+        int n = points.length;
+        d = new int[n];
+        for(int i=0; i<n; i++) d[i] = i;
+        List<Point> l = new ArrayList<>();
+        int res = 0;
 
-        // 2. two pointer
-        int s = 0;
-        for(int e=0; e<n; e++) {
-            String cur = gems[e];
-            c.put(cur, c.getOrDefault(cur, 0) + 1);
-
-            while(c.size() >= totalCnt) {
-                if(endIdx - startIdx > e - s) {
-                    startIdx = s;
-                    endIdx = e;
-                }
-
-                String startVal = gems[s];
-                c.put(startVal, c.get(startVal) - 1);
-                if(c.get(startVal) == 0) c.remove(startVal);
-                s++;
+        // 2. make graph
+        for(int i=0; i<n; i++) {
+            for(int j=i+1; j<n; j++) {
+                int dist = Math.abs(points[i][0] - points[j][0]) + Math.abs(points[i][1] - points[j][1]);
+                l.add(new Point(i, j, dist));
             }
         }
 
-        return new int[]{startIdx+1, endIdx+1};
+        // 3. sort
+        l.sort(Comparator.comparingInt(a -> a.cost));
+
+        // 4. cost
+        for(Point p: l) {
+            int s = find(p.start);
+            int e = find(p.end);
+            int c = p.cost;
+
+            if(s != e) {
+                d[s] = e;
+                res += c;
+            }
+        }
+
+        return res;
+    }
+
+    public int find(int node) {
+        if(node == d[node]) return node;
+        else return d[node] = find(d[node]);
+    }
+}
+
+class Point {
+    int start;
+    int end;
+    int cost;
+    public Point(int start, int end, int cost) {
+        this.start = start;
+        this.end = end;
+        this.cost = cost;
     }
 }
