@@ -1,40 +1,34 @@
-import java.util.Arrays;
-import java.util.PriorityQueue;
+import java.util.*;
+import java.util.stream.Collectors;
 
 class Solution {
-    public long solution(int n, int[] works) {
+    public int[] solution(String[] gems) {
         // 1. init
-        PriorityQueue<Integer> pq = new PriorityQueue<>((a, b) -> b-a);
-        Arrays.stream(works).forEach(pq::add);
+        int totalCnt = new HashSet<>(Arrays.stream(gems).collect(Collectors.toList())).size();
+        int n = gems.length;
+        Map<String, Integer> c = new HashMap<>();
+        int startIdx = 0;
+        int endIdx = n-1;
 
-        // 2. loop
-        while(n > 0 && !pq.isEmpty()) {
-            int cur = pq.poll();
-            if(cur >= 2) pq.add(cur-1);
-            n--;
+        // 2. two pointer
+        int s = 0;
+        for(int e=0; e<n; e++) {
+            String cur = gems[e];
+            c.put(cur, c.getOrDefault(cur, 0) + 1);
+
+            while(c.size() >= totalCnt) {
+                if(endIdx - startIdx > e - s) {
+                    startIdx = s;
+                    endIdx = e;
+                }
+
+                String startVal = gems[s];
+                c.put(startVal, c.get(startVal) - 1);
+                if(c.get(startVal) == 0) c.remove(startVal);
+                s++;
+            }
         }
 
-        // 3. res
-        return pq.stream().mapToLong(x -> (long) x *x)
-                .reduce(0, Long::sum);
-    }
-}
-
-class Main {
-    public static void main(String[] args) {
-//        int[] works = {4, 3, 3};
-//        int n = 4;
-
-//        int[] works = {2, 1, 2};
-//        int n = 1;
-
-        int[] works = {1, 1};
-        int n = 3;
-
-
-        Solution sl = new Solution();
-        long res = sl.solution(n, works);
-
-        System.out.println("res " + res);
+        return new int[]{startIdx+1, endIdx+1};
     }
 }
