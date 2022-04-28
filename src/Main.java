@@ -64,14 +64,3 @@ class Info {
         this.dir = dir;
     }
 }
-
-class Main {
-    public static void main(String[] args) {
-
-        Solution sl = new Solution();
-        int[][] board = {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}};
-        int res = sl.solution(board);
-
-        System.out.println("res " + res);
-    }
-}
