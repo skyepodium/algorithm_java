@@ -1,35 +1,50 @@
-import java.util.Arrays;
+import java.util.*;
 
 class Solution {
-    public int specialArray(int[] nums) {
-        // 1. init
-        int maxVal = Arrays.stream(nums).max().orElse(0);
-        int res = -1;
+    List<List<Integer>> res = new ArrayList<>();
+    boolean[] check;
+    int n;
+    Set<String> s = new HashSet<>();
+    public List<List<Integer>> permuteUnique(int[] nums) {
+        n = nums.length;
+        check = new boolean[n];
 
-        // 2. binary search
-        int s = 0, e = maxVal;
-        while(s <= e) {
-            int mid = s + (e - s) / 2;
-            int cnt = calCnt(mid, nums);
-            if(cnt > mid) {
-                s = mid + 1;
-            }
-            else if(cnt == mid) {
-                return mid;
-            }
-            else {
-                e = mid - 1;
-            }
-        }
+        dfs(new Stack<>(), 0, nums);
 
         return res;
     }
 
-    public int calCnt(int mid, int[] nums) {
-        int res = 0;
-        for(int x: nums) {
-            if(x >= mid) res++;
+    public void dfs(Stack<Integer> l, int cnt, int[] nums) {
+        if(cnt >= n) {
+            List<Integer> cur = new ArrayList<>(l);
+            StringBuilder key = new StringBuilder();
+            for(int i=0; i<cur.size(); i++) {
+                key.append(cur.get(i).toString());
+            }
+            if(!s.contains(key.toString())) {
+                s.add(key.toString());
+                res.add(cur);
+            }
+            return;
         }
-        return res;
+
+        for(int i=0; i<n; i++) {
+            if(!check[i]) {
+                check[i] = true;
+                l.push(nums[i]);
+                dfs(l, cnt + 1, nums);
+                l.pop();
+                check[i] = false;
+            }
+        }
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Solution sl = new Solution();
+        int[] nums = {1,1,2};
+
+        sl.permuteUnique(nums);
     }
 }
