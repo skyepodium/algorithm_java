@@ -1,24 +1,26 @@
-import java.util.Stack;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 class Solution {
-    public String removeDuplicates(String s) {
+    public int maxOperations(int[] nums, int k) {
         // 1. init
-        Stack<Character> st = new Stack<>();
+        Map<Integer, Integer> m = new HashMap<>();
+        Arrays.stream(nums).forEach(x -> m.put(x, m.getOrDefault(x, 0) + 1));
+        int n = nums.length;
+        int res = 0;
 
-        for(int i=0; i<s.length(); i++) {
-            char c = s.charAt(i);
+        // 2. loop
+        for(int num: nums) {
+            int remain = k - num;
+            if(num == remain && m.getOrDefault(remain, 0) <= 1) continue;
+            if(m.getOrDefault(remain, 0) < 1 || m.getOrDefault(num, 0) < 1) continue;
 
-            if(st.size() > 0 && st.peek() == c) {
-                while(st.size() > 0 && st.peek() == c) st.pop();
-            }
-            else {
-                st.add(c);
-            }
+            res++;
+            m.put(remain, m.get(remain) - 1);
+            m.put(num, m.get(num) - 1);
         }
 
-        // 3. res
-        StringBuilder res = new StringBuilder();
-        while(st.size() > 0) res.append(st.pop());
-        return res.reverse().toString();
+        return res;
     }
 }
