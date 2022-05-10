@@ -1,21 +1,27 @@
 class Solution {
-    public int[][] construct2DArray(int[] original, int m, int n) {
-        // 0. exception
-        if(original.length != m * n) return new int[0][0];
-
+    public int[] smallerNumbersThanCurrent(int[] nums) {
         // 1. init
-        int res[][] = new int[m][n];
+        int maxInt = 101;
+        int[] c = new int[maxInt];
+        int[] d = new int[maxInt];
+        int n = nums.length;
+        int[] res = new int[n];
 
         // 2. loop
-        int i=0;
-        int j=0;
-        for(int o: original) {
-            res[i][j] = o;
-            j++;
-            if(j >= n) {
-                j = 0;
-                i++;
-            }
+        for(int num: nums) {
+            c[num]++;
+        }
+
+        int prev = 0;
+        for(int i=0; i<maxInt; i++) {
+            if(c[i] == 0) continue;
+            d[i] = prev;
+            prev += c[i];
+        }
+
+        for(int i=0; i<n; i++) {
+            int num = nums[i];
+            res[i] = d[num];
         }
 
         return res;
