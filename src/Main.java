@@ -1,36 +1,23 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
-
 class Solution {
-    List<List<Integer>> res = new ArrayList<>();
-    boolean[] check = new boolean[10];
-    public List<List<Integer>> combinationSum3(int k, int n) {
+    public int[][] construct2DArray(int[] original, int m, int n) {
+        // 0. exception
+        if(original.length != m * n) return new int[0][0];
 
-        go(0, new Stack<>(), 0, n, k);
+        // 1. init
+        int res[][] = new int[m][n];
 
-        return res;
-    }
-
-    public void go(int cnt, Stack<Integer> s, int sumVal, int n, int k) {
-        if(sumVal > n) return;
-
-        if(cnt >= k) {
-            if(sumVal == n)
-                res.add(new ArrayList<>(s));
-            return;
-        }
-
-        for(int i=1; i<10; i++) {
-            if(!check[i]) {
-                if(!s.isEmpty() && s.peek() > i) continue;
-
-                check[i] = true;
-                s.add(i);
-                go(cnt + 1, s, sumVal + i, n, k);
-                check[i] = false;
-                s.pop();
+        // 2. loop
+        int i=0;
+        int j=0;
+        for(int o: original) {
+            res[i][j] = o;
+            j++;
+            if(j >= n) {
+                j = 0;
+                i++;
             }
         }
+
+        return res;
     }
 }
