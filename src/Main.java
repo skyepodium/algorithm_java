@@ -1,17 +1,44 @@
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Stack;
+import java.util.stream.Collectors;
 
 class Solution {
-    public int maxNumberOfBalloons(String text) {
+    public String makeFancyString(String s) {
         // 1. init
-        Map<String, Integer> m = new HashMap<>();
-        Arrays.stream(text.split("")).forEach(c -> m.put(c, m.getOrDefault(c, 0) + 1));
+        Stack<Info> st = new Stack<>();
 
-        return min5(m.getOrDefault("b", 0), m.getOrDefault("a", 0), m.getOrDefault("l", 0) / 2, m.getOrDefault("o", 0) / 2, m.getOrDefault("n", 0));
+        // 2. loop
+        for(String c: s.split("")) {
+            Info cur = !st.isEmpty() ? st.peek() : new Info("", 0);
+
+            String a = cur.c;
+            int b = cur.cnt;
+
+            if(a.equals(c) && b == 2) continue;
+
+            int cnt = a.equals(c) ? b + 1 : 1;
+
+            st.push(new Info(c, cnt));
+        }
+
+        return String.join("", st.stream().map(x -> x.c).collect(Collectors.toList()).toArray(new String[0]));
     }
+}
 
-    public int min5(int a, int b, int c, int d, int e) {
-        return Math.min(a, Math.min(b, Math.min(c, Math.min(d, e))));
+class Info {
+    String c;
+    int cnt;
+    public Info(String c, int cnt) {
+        this.c = c;
+        this.cnt = cnt;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Solution sl = new Solution();
+        String s = "leeetcode";
+        String res = sl.makeFancyString(s);
+
+        System.out.println(res);
     }
 }
