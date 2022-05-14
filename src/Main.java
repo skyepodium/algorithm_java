@@ -1,29 +1,17 @@
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
 class Solution {
-    public int[] smallerNumbersThanCurrent(int[] nums) {
+    public int maxNumberOfBalloons(String text) {
         // 1. init
-        int maxInt = 101;
-        int[] c = new int[maxInt];
-        int[] d = new int[maxInt];
-        int n = nums.length;
-        int[] res = new int[n];
+        Map<String, Integer> m = new HashMap<>();
+        Arrays.stream(text.split("")).forEach(c -> m.put(c, m.getOrDefault(c, 0) + 1));
 
-        // 2. loop
-        for(int num: nums) {
-            c[num]++;
-        }
+        return min5(m.getOrDefault("b", 0), m.getOrDefault("a", 0), m.getOrDefault("l", 0) / 2, m.getOrDefault("o", 0) / 2, m.getOrDefault("n", 0));
+    }
 
-        int prev = 0;
-        for(int i=0; i<maxInt; i++) {
-            if(c[i] == 0) continue;
-            d[i] = prev;
-            prev += c[i];
-        }
-
-        for(int i=0; i<n; i++) {
-            int num = nums[i];
-            res[i] = d[num];
-        }
-
-        return res;
+    public int min5(int a, int b, int c, int d, int e) {
+        return Math.min(a, Math.min(b, Math.min(c, Math.min(d, e))));
     }
 }
