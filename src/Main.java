@@ -1,44 +1,25 @@
-import java.util.Stack;
-import java.util.stream.Collectors;
-
 class Solution {
-    public String makeFancyString(String s) {
-        // 1. init
-        Stack<Info> st = new Stack<>();
+    int d = 0;
+    int res = 0;
+    public int deepestLeavesSum(TreeNode root) {
+        dfs(root, 0);
 
-        // 2. loop
-        for(String c: s.split("")) {
-            Info cur = !st.isEmpty() ? st.peek() : new Info("", 0);
+        return res;
+    }
 
-            String a = cur.c;
-            int b = cur.cnt;
+    public void dfs(TreeNode node, int depth) {
+        if(node == null) return;
 
-            if(a.equals(c) && b == 2) continue;
+        if(depth == this.d) this.res += node.val;
 
-            int cnt = a.equals(c) ? b + 1 : 1;
-
-            st.push(new Info(c, cnt));
+        if(depth > this.d) {
+            this.res = 0;
+            this.d = depth;
         }
 
-        return String.join("", st.stream().map(x -> x.c).collect(Collectors.toList()).toArray(new String[0]));
+        dfs(node.left, depth + 1);
+        dfs(node.right, depth + 1);
     }
 }
 
-class Info {
-    String c;
-    int cnt;
-    public Info(String c, int cnt) {
-        this.c = c;
-        this.cnt = cnt;
-    }
-}
 
-class Main {
-    public static void main(String[] args) {
-        Solution sl = new Solution();
-        String s = "leeetcode";
-        String res = sl.makeFancyString(s);
-
-        System.out.println(res);
-    }
-}
