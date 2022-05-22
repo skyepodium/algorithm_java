@@ -1,30 +1,27 @@
 class Solution {
-    public int coinChange(int[] coins, int amount) {
+    public int countSubstrings(String s) {
         // 1. init
-        int[] d = new int[amount+1];
-        for(int i=1; i<=amount; i++) d[i] = amount + 1;
-        d[0] = 0;
+        int n = s.length();
+        int res = 0;
 
-        // 2. bottom up
-        for(int i=1; i<=amount; i++) {
-            for(int c: coins) {
-                if(i-c>=0) {
-                    d[i] = Math.min(d[i], d[i-c] + 1);
-                }
-            }
+        // 2. loop
+        for(int i=0; i<n; i++) {
+            res += isPalindrome(i, i, n, s);
+            res += isPalindrome(i, i+1, n, s);
         }
 
-        return d[amount] <= amount ? d[amount] : -1;
+        return res;
     }
-}
 
-class Main {
-    public static void main(String[] args) {
-        Solution sl = new Solution();
-        int[] coins = {2};
-        int amount = 3;
-        int res = sl.coinChange(coins, amount);
+    public int isPalindrome(int l, int r, int n, String s) {
+        int res = 0;
 
-        System.out.println(res);
+        while(l >= 0 && r < n && s.charAt(l) == s.charAt(r)) {
+            res++;
+            l--;
+            r++;
+        }
+
+        return res;
     }
 }
