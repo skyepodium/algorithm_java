@@ -1,29 +1,23 @@
-class Solution {
-    public int maxProduct(String[] words) {
-        // 1. init
-        int n = words.length;
-        int[] w = new int[n];
+import java.util.HashSet;
+import java.util.Set;
 
-        for(int i=0; i<n; i++) {
-            String wo = words[i];
-            int bit = 0;
-            for(String c: wo.split("")) {
-                int val = (int)c.charAt(0) - (int)"a".charAt(0);
-                bit |= 1 << val;
-            }
-            w[i] = bit;
-        }
-        int res = 0;
+class Solution {
+    public boolean hasAllCodes(String s, int k) {
+        // 1. init
+        int n = s.length();
+        int cnt = 1 << k;
+        Set<String> seen = new HashSet<>();
 
         // 2. loop
-        for(int i=0; i<n; i++) {
-            for(int j=i+1; j<n; j++) {
-                if((w[i] & w[j]) != 0) continue;
-
-                res = Math.max(res, words[i].length() * words[j].length());
+        for(int i=0; i<n-k+1; i++) {
+            String cur = s.substring(i, i+k);
+            if(!seen.contains(cur)) {
+                cnt--;
+                seen.add(cur);
             }
+            if(cnt == 0) return true;
         }
-
-        return res;
+        
+        return false;
     }
 }
