@@ -1,37 +1,39 @@
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Comparator;
+import java.util.PriorityQueue;
 
-class Solution {
-    public String longestNiceSubstring(String s) {
-        // 1. init
-        int n = s.length();
-        String res = "";
+class MedianFinder {
+    PriorityQueue<Double> minHeap;
+    PriorityQueue<Double> maxHeap;
 
-        // 2. loop
-        for(int i=0; i<n; i++) {
-            for(int j=i+1; j<n+1; j++) {
-                // 1) set
-                boolean isNice = true;
-                String cur = s.substring(i, j);
-                Set<Character> se = new HashSet<>();
-                for(int k=0; k<cur.length(); k++) {
-                    char c = cur.charAt(k);
-                    se.add(c);
-                }
+    public MedianFinder() {
+        this.minHeap = new PriorityQueue<>(Comparator.comparingDouble(v -> v));
+        this.maxHeap = new PriorityQueue<>(Comparator.comparingDouble(v -> -v));
+    }
 
-                for(int k=0; k<cur.length(); k++) {
-                    char c = cur.charAt(k);
-                    if(((int)c >= (int)'a' && !se.contains((char)(c - 32)))
-                    || ((int)c < (int)'a' && !se.contains((char)(c + 32)))) {
-                        isNice = false;
-                        break;
-                    }
-                }
-
-                if(isNice && res.length() < cur.length()) res = cur;
-            }
+    public void addNum(int num) {
+        if(this.maxHeap.isEmpty()) {
+            maxHeap.add((double) num);
+            return;
         }
 
-        return res;
+        if(num <= maxHeap.peek()) {
+            maxHeap.add((double) num);
+        } else {
+            minHeap.add((double) num);
+        }
+
+        if(this.maxHeap.size() >= this.minHeap.size() + 2) {
+            this.minHeap.add(this.maxHeap.poll());
+        } else if(this.maxHeap.size() <this.minHeap.size()) {
+            this.maxHeap.add(this.minHeap.poll());
+        }
+    }
+
+    public double findMedian() {
+        if(this.maxHeap.size() == this.minHeap.size()) {
+            return (this.maxHeap.peek() + this.minHeap.peek()) / 2;
+        }
+
+        return this.maxHeap.peek();
     }
 }
