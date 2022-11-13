@@ -1,39 +1,17 @@
-import java.util.Comparator;
-import java.util.PriorityQueue;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
-class MedianFinder {
-    PriorityQueue<Double> minHeap;
-    PriorityQueue<Double> maxHeap;
+class Solution {
+    public String reverseWords(String s) {
+        String[] stringArray = s.trim().split(" +");
 
-    public MedianFinder() {
-        this.minHeap = new PriorityQueue<>(Comparator.comparingDouble(v -> v));
-        this.maxHeap = new PriorityQueue<>(Comparator.comparingDouble(v -> -v));
-    }
+        List<String> list = new ArrayList<>(Arrays.asList(stringArray));
+        Collections.reverse(list);
 
-    public void addNum(int num) {
-        if(this.maxHeap.isEmpty()) {
-            maxHeap.add((double) num);
-            return;
-        }
-
-        if(num <= maxHeap.peek()) {
-            maxHeap.add((double) num);
-        } else {
-            minHeap.add((double) num);
-        }
-
-        if(this.maxHeap.size() >= this.minHeap.size() + 2) {
-            this.minHeap.add(this.maxHeap.poll());
-        } else if(this.maxHeap.size() <this.minHeap.size()) {
-            this.maxHeap.add(this.minHeap.poll());
-        }
-    }
-
-    public double findMedian() {
-        if(this.maxHeap.size() == this.minHeap.size()) {
-            return (this.maxHeap.peek() + this.minHeap.peek()) / 2;
-        }
-
-        return this.maxHeap.peek();
+        // list to string
+        return String.join(" ", list);
     }
 }
